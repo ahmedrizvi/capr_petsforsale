@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'login.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(const Forget());
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Forget extends StatelessWidget {
+  const Forget({Key? key}) : super(key: key);
 
-  static const String _title = 'Pets for Sale';
+  static const String _title = 'Canis Orbis';
 
   @override
   Widget build(BuildContext context) {
@@ -18,26 +19,27 @@ class MyApp extends StatelessWidget {
             elevation:0,
             centerTitle: true,
             backgroundColor: Colors.black,
-            title: const Text("Forgot Your Password?",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
-        body: const MyStatefulWidget(),
+            title: const Text("- Password Reset -",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+        body: const MyStatefulWidget (),
       ),
     );
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+class MyStatefulWidget  extends StatefulWidget {
+  const MyStatefulWidget ({Key? key}) : super(key: key);
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  State<MyStatefulWidget > createState() => _MyStatefulWidgetState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class _MyStatefulWidgetState extends State<MyStatefulWidget > {
 
   bool _isvisible = false, _isvisible2 = false;
   bool _nameError = false, _passEmpty1 = false, _passEmpty2 = false;
   String _passMessage = '';
-  final textbg = Color(0xFF3D3D3D);
+  final textbg = const Color(0xFF3D3D3D);
+  static const String _title = 'Canis Orbis';
   
   TextEditingController nameController = TextEditingController();
   TextEditingController pass = TextEditingController();
@@ -74,8 +76,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
+          padding: const EdgeInsets.all(10),
+          child: ListView(
           children: <Widget>[
             Container(
               padding: const EdgeInsets.all(10),
@@ -150,8 +152,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-                height: 80,
-                padding: const EdgeInsets.fromLTRB(360, 40, 360, 0),
+                height: 130,
+                padding: const EdgeInsets.fromLTRB(360, 40, 360, 40),
                 child: MaterialButton(
                   color: Colors.blueAccent,
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10)),
@@ -183,7 +185,25 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       }
                   },
                 )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                  child: const Text(
+                    'Remembered your Password, Return to Login',
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,fontSize: 15),
+                  ),
+                  onPressed: () {
+                    //signup screen
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const Login()));
+                  },
+                )
+              ],
+            ),
           ],
-        ));
+          ),
+        );
   }
 }
