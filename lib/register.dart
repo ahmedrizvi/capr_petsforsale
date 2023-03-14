@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 
@@ -19,7 +20,7 @@ class Register extends StatelessWidget {
             backgroundColor: Colors.black,
             elevation: 0,
             centerTitle: true,
-            title: const Text(" - Registration - ",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+            title: const Text("Canis",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Palatino'),)),
         body: MyStatefulWidget (),
       ),
     );
@@ -39,7 +40,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
   bool _FnameError = false, _LnameError = false, _emailError = false,
       _passError = false, _CpassError = false, _isvisible = false, _isvisible2 = false;
 
+  bool _8Characters = false;
+  bool _1NumCharacters = false;
+  bool _1SpeCharacters = false;
+  bool _1CapitalCharacters = false;
+
   String _CpassMessage = '';
+
+  onPasswordChanged(String password)
+  {
+
+  }
 
   TextEditingController _FnameController = TextEditingController();
   TextEditingController _LnameController = TextEditingController();
@@ -57,11 +68,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
+            Container(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                alignment: Alignment.center,
+                child: const Text('Sign up to buy, sell or view pets!', style: TextStyle(color: Colors.grey, fontSize: 18))
+            ),
             Row(children: [
-              const SizedBox(width: 10,),
+              const SizedBox(width: 10),
               Expanded(child: TextField(
                 style: const TextStyle(color: Colors.white),
                 controller: _FnameController,
@@ -98,6 +114,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
             Container(
               padding: const EdgeInsets.fromLTRB(10,20,10,10),
               child: TextField(
+                onTap: (){
+                  _emailError = false;
+                },
                 style: const TextStyle(color: Colors.white),
                 controller: emailController,
                 decoration: InputDecoration(
@@ -116,6 +135,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                onChanged: (passwordController) => onPasswordChanged(passwordController),
                 style: const TextStyle(color: Colors.white),
                 controller: passwordController,
                 obscureText: !_isvisible,
@@ -140,6 +160,79 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                 ),
               ),
             ),
+            SizedBox(height: 10,),
+            Row(
+              children: [
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
+                ),
+                SizedBox(width: 10,),
+                const Text ("Contains at least 8 characters",
+                style: TextStyle(color: Colors.white),),
+              ],
+            ),
+            SizedBox(height: 10,),
+            Row(
+              children: [
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
+                ),
+                SizedBox(width: 10,),
+                const Text ("Contains at least 1 number",
+                  style: TextStyle(color: Colors.white),),
+              ],
+            ),
+            SizedBox(height: 10,),
+            Row(
+              children: [
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
+                ),
+                SizedBox(width: 10,),
+                const Text ("Contains at least 1 special character",
+                  style: TextStyle(color: Colors.white),),
+              ],
+            ),
+            SizedBox(height: 10,),
+            Row(
+              children: [
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
+                ),
+                SizedBox(width: 10,),
+                const Text ("Contains at least 1 capital letter",
+                  style: TextStyle(color: Colors.white),),
+              ],
+            ),
+            SizedBox(height: 10,),
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
@@ -168,8 +261,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
               ),
             ),
             Container(
-                height: 120,
-                padding: const EdgeInsets.fromLTRB(360, 40, 360, 40),
+                height: 250,
+                padding: const EdgeInsets.fromLTRB(40, 150, 40, 40),
                 child: ElevatedButton(
                   child: const Text('Create',
                     style: TextStyle(fontSize: 20, color: Colors.white)),

@@ -7,7 +7,7 @@ void main() => runApp(const Login());
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
-  static const String _title = 'Canis Orbis';
+  static const String _title = 'Canis';
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class Login extends StatelessWidget {
           backgroundColor: Colors.black,
             elevation: 0,
             centerTitle: true,
-            title: const Text("- Sign In -",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+            title: const Text("Canis",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Palatino'),)),
         body: const login(),
       ),
     );
@@ -106,8 +106,8 @@ class _MyStatefulWidgetState extends State<login> {
               },
             ),
             Container(
-                height: 120,
-                padding: const EdgeInsets.fromLTRB(360, 40, 360, 40),
+                height: 400,
+                padding: const EdgeInsets.fromLTRB(50, 340, 50, 10),
                 child: ElevatedButton(
                   child: const Text('Login',
                       style: TextStyle(fontSize: 20, color: Colors.white)),

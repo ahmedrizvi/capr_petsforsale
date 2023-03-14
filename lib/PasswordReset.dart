@@ -19,7 +19,7 @@ class Forget extends StatelessWidget {
             elevation:0,
             centerTitle: true,
             backgroundColor: Colors.black,
-            title: const Text("- Password Reset -",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+            title: const Text("Canis",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Palatino'),)),
         body: const MyStatefulWidget (),
       ),
     );
@@ -79,6 +79,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
           padding: const EdgeInsets.all(10),
           child: ListView(
           children: <Widget>[
+            Container(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+              alignment: Alignment.center,
+              child: const Text('Trouble with logging in?', style: TextStyle(color: Colors.grey, fontSize: 18))
+            ),
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
@@ -152,8 +157,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
               ),
             ),
             Container(
-                height: 130,
-                padding: const EdgeInsets.fromLTRB(360, 40, 360, 40),
+                height: 300,
+                padding: const EdgeInsets.fromLTRB(50, 230, 50, 10),
                 child: MaterialButton(
                   color: Colors.blueAccent,
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10)),
