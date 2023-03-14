@@ -261,8 +261,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
               ),
             ),
             Container(
-                height: 250,
-                padding: const EdgeInsets.fromLTRB(40, 150, 40, 40),
+                height: 100,
+                padding: const EdgeInsets.fromLTRB(360, 50, 360, 10),
                 child: ElevatedButton(
                   child: const Text('Create',
                     style: TextStyle(fontSize: 20, color: Colors.white)),

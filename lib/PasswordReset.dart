@@ -157,8 +157,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
               ),
             ),
             Container(
-                height: 300,
-                padding: const EdgeInsets.fromLTRB(50, 230, 50, 10),
+                height: 100,
+                padding: const EdgeInsets.fromLTRB(360, 50, 360, 10),
                 child: MaterialButton(
                   color: Colors.blueAccent,
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10)),
