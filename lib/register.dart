@@ -7,7 +7,7 @@ void main() => runApp(const Register());
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);
 
-  static const String _title = 'Canis Orbis';
+  static const String _title = 'Pet Ordis';
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +35,7 @@ class MyStatefulWidget  extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget > {
+
   final textbg = const Color(0xFF3D3D3D);
 
   bool _FnameError = false, _LnameError = false, _emailError = false,
@@ -47,10 +48,65 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
 
   String _CpassMessage = '';
 
+  // watches password changes and validates the text
   onPasswordChanged(String password)
   {
+    setState(() {
+      final capitalRegex = RegExp(r'[A-Z]');
+      final numericRegex = RegExp(r'[0-9]');
+      final specialRegex = RegExp(r'[!@#\$&*~]');
 
+      _passError = false;
+      _1NumCharacters = false;
+      _1SpeCharacters = false;
+      _1CapitalCharacters = false;
+      _8Characters = false;
+      if(password.length >= 8)
+        {
+          _8Characters = true;
+        }
+      if(numericRegex.hasMatch(password))
+        {
+          _1NumCharacters = true;
+        }
+      if (specialRegex.hasMatch(password))
+        {
+          _1SpeCharacters = true;
+        }
+      if (capitalRegex.hasMatch(password))
+        {
+          _1CapitalCharacters = true;
+        }
+    });
   }
+
+  FnameChange(String Name)
+  {
+    setState(() {
+      _FnameError = false;
+    });
+  }
+  LnameChange(String Name)
+  {
+    setState(() {
+      _LnameError = false;
+    });
+  }
+
+  emailChange (String email)
+  {
+    setState(() {
+      _emailError = false;
+    });
+  }
+
+  cPassChange (String cpass)
+  {
+    setState(() {
+      _CpassError = false;
+    });
+  }
+
 
   TextEditingController _FnameController = TextEditingController();
   TextEditingController _LnameController = TextEditingController();
@@ -79,6 +135,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
             Row(children: [
               const SizedBox(width: 10),
               Expanded(child: TextField(
+                onChanged: (_FnameController) => FnameChange(_FnameController),
                 style: const TextStyle(color: Colors.white),
                 controller: _FnameController,
                 decoration: InputDecoration(
@@ -95,6 +152,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
               ),),
               const SizedBox(width: 20,),
               Expanded(child: TextField(
+                onChanged: (_LnameController) => LnameChange(_LnameController),
                 style: const TextStyle(color: Colors.white),
                 controller: _LnameController,
                 decoration: InputDecoration(
@@ -114,9 +172,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
             Container(
               padding: const EdgeInsets.fromLTRB(10,20,10,10),
               child: TextField(
-                onTap: (){
-                  _emailError = false;
-                },
+                onChanged: (emailController) => emailChange(emailController),
                 style: const TextStyle(color: Colors.white),
                 controller: emailController,
                 decoration: InputDecoration(
@@ -168,7 +224,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
+                    color: _8Characters ? Colors.blueAccent : Colors.transparent,
+                    border: _8Characters ? Border.all(color: Colors.transparent) :
+                    Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
@@ -186,7 +244,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
+                    color: _1NumCharacters ? Colors.blueAccent : Colors.transparent,
+                    border: _1NumCharacters ? Border.all(color: Colors.transparent) :
+                    Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
@@ -204,7 +264,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
+                    color: _1SpeCharacters ? Colors.blueAccent : Colors.transparent,
+                    border: _1SpeCharacters ? Border.all(color: Colors.transparent)
+                    : Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
@@ -222,7 +284,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
+                    color: _1CapitalCharacters ? Colors.blueAccent : Colors.transparent,
+                    border: _1CapitalCharacters ? Border.all(color: Colors.transparent)
+                        :Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
@@ -236,6 +300,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                onChanged: (confPasswordController) => cPassChange(confPasswordController),
                 style: const TextStyle(color: Colors.white),
                 obscureText: !_isvisible2,
                 controller: confPasswordController,
@@ -262,9 +327,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
             ),
             Container(
                 height: 100,
-                padding: const EdgeInsets.fromLTRB(360, 50, 360, 10),
+                padding: const EdgeInsets.fromLTRB(50, 50, 50, 10),
                 child: ElevatedButton(
-                  child: const Text('Create',
+                  style: ButtonStyle(
+                    shape:  MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )
+                    )
+                  ),
+                  child: const Text('Register',
                     style: TextStyle(fontSize: 20, color: Colors.white)),
                   onPressed: () {
                     setState(() {

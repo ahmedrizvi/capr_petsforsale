@@ -6,7 +6,7 @@ void main() => runApp(const Forget());
 class Forget extends StatelessWidget {
   const Forget({Key? key}) : super(key: key);
 
-  static const String _title = 'Canis Orbis';
+  static const String _title = 'Pet Ordis';
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class Forget extends StatelessWidget {
             elevation:0,
             centerTitle: true,
             backgroundColor: Colors.black,
-            title: const Text("Canis",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Palatino'),)),
+            title: const Text("Pet Ordis",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Palatino'),)),
         body: const MyStatefulWidget (),
       ),
     );
@@ -35,11 +35,18 @@ class MyStatefulWidget  extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget > {
 
+
   bool _isvisible = false, _isvisible2 = false;
   bool _nameError = false, _passEmpty1 = false, _passEmpty2 = false;
   String _passMessage = '';
+
+  bool _8Characters = false;
+  bool _1NumCharacters = false;
+  bool _1SpeCharacters = false;
+  bool _1CapitalCharacters = false;
+
   final textbg = const Color(0xFF3D3D3D);
-  static const String _title = 'Canis Orbis';
+  static const String _title = 'Pet Ordis';
   
   TextEditingController nameController = TextEditingController();
   TextEditingController pass = TextEditingController();
@@ -53,16 +60,50 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
     super.dispose();
   }
 
-  void clearText()
+  onNameChange(String name)
   {
-    pass.clear();
-    conform_Pass.clear();
+    setState(() {
+      _nameError = false;
+    });
+  }
+  onPasswordChange(String password)
+  {
+    setState(() {
+      final capitalRegex = RegExp(r'[A-Z]');
+      final numericRegex = RegExp(r'[0-9]');
+      final specialRegex = RegExp(r'[!@#\$&*~]');
+
+      _passEmpty1 = false;
+      _1NumCharacters = false;
+      _1SpeCharacters = false;
+      _1CapitalCharacters = false;
+      _8Characters = false;
+
+      if(password.length >= 8)
+      {
+        _8Characters = true;
+      }
+      if(numericRegex.hasMatch(password))
+      {
+        _1NumCharacters = true;
+      }
+      if (specialRegex.hasMatch(password))
+      {
+        _1SpeCharacters = true;
+      }
+      if (capitalRegex.hasMatch(password))
+      {
+        _1CapitalCharacters = true;
+      }
+
+    });
   }
 
-  void errorRun()
+  onCoPasswordChange(String conform)
   {
-    openDialog();
-    clearText();
+    setState(() {
+      _passEmpty2 = false;
+    });
   }
 
 
@@ -87,6 +128,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                onChanged: (name) => onNameChange(name),
                 style: const TextStyle(color: Colors.white),
                 controller: nameController,
                 decoration: InputDecoration(
@@ -105,6 +147,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                onChanged: (password) => onPasswordChange(password),
                 style: const TextStyle(color: Colors.white),
                 controller: pass,
                 obscureText: !_isvisible,
@@ -129,9 +172,91 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                 ),
               ),
             ),
+            SizedBox(height: 10,),
+            Row(
+              children: [
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: _8Characters ? Colors.blueAccent : Colors.transparent,
+                    border: _8Characters ? Border.all(color: Colors.transparent) :
+                    Border.all(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
+                ),
+                SizedBox(width: 10,),
+                const Text ("Contains at least 8 characters",
+                  style: TextStyle(color: Colors.white),),
+              ],
+            ),
+            SizedBox(height: 10,),
+            Row(
+              children: [
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: _1NumCharacters ? Colors.blueAccent : Colors.transparent,
+                    border: _1NumCharacters ? Border.all(color: Colors.transparent) :
+                    Border.all(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
+                ),
+                SizedBox(width: 10,),
+                const Text ("Contains at least 1 number",
+                  style: TextStyle(color: Colors.white),),
+              ],
+            ),
+            SizedBox(height: 10,),
+            Row(
+              children: [
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: _1SpeCharacters ? Colors.blueAccent : Colors.transparent,
+                    border: _1SpeCharacters ? Border.all(color: Colors.transparent)
+                        : Border.all(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
+                ),
+                SizedBox(width: 10,),
+                const Text ("Contains at least 1 special character",
+                  style: TextStyle(color: Colors.white),),
+              ],
+            ),
+            SizedBox(height: 10,),
+            Row(
+              children: [
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: _1CapitalCharacters ? Colors.blueAccent : Colors.transparent,
+                    border: _1CapitalCharacters ? Border.all(color: Colors.transparent)
+                        :Border.all(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
+                ),
+                SizedBox(width: 10,),
+                const Text ("Contains at least 1 capital letter",
+                  style: TextStyle(color: Colors.white),),
+              ],
+            ),
+            SizedBox(height: 10,),
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                onChanged: (password) => onCoPasswordChange(password),
                 style: const TextStyle(color: Colors.white),
                 controller: conform_Pass,
                 obscureText: !_isvisible2,
@@ -158,11 +283,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
             ),
             Container(
                 height: 100,
-                padding: const EdgeInsets.fromLTRB(360, 50, 360, 10),
+                padding: const EdgeInsets.fromLTRB(50, 50, 50, 10),
                 child: MaterialButton(
                   color: Colors.blueAccent,
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10)),
-                  child: const Text('Submit',
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  child: const Text('Reset',
                     style: TextStyle(fontSize: 20, color: Colors.white)),
                   onPressed: () {
                     setState(() {
