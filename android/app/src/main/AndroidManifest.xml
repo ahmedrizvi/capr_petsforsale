@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.capr_petsforsale">
+    package="com.android.capr_petsforsale">
    <application
         android:label="capr_petsforsale">
 
