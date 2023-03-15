@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 
@@ -44,9 +46,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   bool _FnameError = false,
       _LnameError = false,
+      _usernameError = false,
       _emailError = false,
       _passError = false,
       _CpassError = false,
+      _addressError = false,
+      _phoneNumberError = false,
       _isvisible = false,
       _isvisible2 = false;
 
@@ -61,9 +66,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   TextEditingController _FnameController = TextEditingController();
   TextEditingController _LnameController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confPasswordController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
 
   Future openDialog() => showDialog(
         context: context,
@@ -71,7 +79,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           title: Text("Success"),
         ),
       );
-
+  Future addUserDetails(String firstName, String lastName, String userName, String email, String phoneNumber, String address) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'first name:': firstName,
+      'last name:': lastName,
+      'user name:': userName,
+      'email:': email,
+      'phone number:': phoneNumber,
+      'address:': address,
+    } as Map<String, dynamic>);
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -128,6 +145,28 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 width: 10,
               ),
             ]),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+              child: TextField(
+                onTap: () {
+                  _usernameError = false;
+                },
+                style: const TextStyle(color: Colors.white),
+                controller: userNameController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: textbg,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.black),
+                  ),
+                  labelText: 'Username',
+                  labelStyle: const TextStyle(color: Colors.white70),
+                  errorText:
+                  _usernameError ? 'Please Enter Your Username' : null,
+                ),
+              ),
+            ),
             Container(
               padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
               child: TextField(
@@ -328,6 +367,50 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+              child: TextField(
+                onTap: () {
+                  _addressError = false;
+                },
+                style: const TextStyle(color: Colors.white),
+                controller: addressController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: textbg,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.black),
+                  ),
+                  labelText: 'Address',
+                  labelStyle: const TextStyle(color: Colors.white70),
+                  errorText:
+                  _addressError ? 'Please Enter Your Physical Address' : null,
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+              child: TextField(
+                onTap: () {
+                  _phoneNumberError = false;
+                },
+                style: const TextStyle(color: Colors.white),
+                controller: phoneNumberController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: textbg,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.black),
+                  ),
+                  labelText: 'Phone number',
+                  labelStyle: const TextStyle(color: Colors.white70),
+                  errorText:
+                  _phoneNumberError ? 'Please Enter Your Phone Number' : null,
+                ),
+              ),
+            ),
+            Container(
                 height: 250,
                 padding: const EdgeInsets.fromLTRB(40, 150, 40, 40),
                 child: ElevatedButton(
@@ -342,6 +425,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       _LnameController.text.isEmpty
                           ? _LnameError = true
                           : _LnameError = false;
+                      userNameController.text.isEmpty
+                          ? _usernameError = true
+                          : _usernameError = false;
                       emailController.text.isEmpty
                           ? _emailError = true
                           : _emailError = false;
@@ -351,10 +437,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       confPasswordController.text.isEmpty
                           ? _CpassError = true
                           : _CpassError = false;
+                      addressController.text.isEmpty
+                          ? _addressError = true
+                          : _addressError = false;
+                      phoneNumberController.text.isEmpty
+                          ? _phoneNumberError = true
+                          : _phoneNumberError = false;
                     });
                     if (_FnameController.text.isNotEmpty &
                         _LnameController.text.isNotEmpty &
-                        emailController.text.isNotEmpty) {
+                        emailController.text.isNotEmpty &
+                        userNameController.text.isNotEmpty &
+                        phoneNumberController.text.isNotEmpty &
+                        addressController.text.isNotEmpty) {
                       if (confPasswordController.text !=
                           passwordController.text) {
                         confPasswordController.clear();
@@ -365,7 +460,23 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                               : _CpassError = false;
                         });
                       } else {
-                        openDialog();
+                        FirebaseAuth.instance.createUserWithEmailAndPassword(
+                            email: emailController.text,
+                            password: passwordController.text).then((value) {
+                            addUserDetails(
+                                _FnameController.text.trim(),
+                                _LnameController.text.trim(),
+                                userNameController.text.trim(),
+                                emailController.text.trim(),
+                                phoneNumberController.text.trim(),
+                                addressController.text.trim()
+                            );
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Login()));
+                        });
+
+
+
                       }
                     }
                   },

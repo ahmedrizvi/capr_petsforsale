@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "742957171701",
+    "project_id": "fir-auth-40ede",
+    "storage_bucket": "fir-auth-40ede.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742957171701:android:eacd1009763143f9ded6bc",
+        "android_client_info": {
+          "package_name": "com.android.capr_petsforsale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742957171701-7ogjro6hmjbrmitne80dq40e6kega84b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0DiWlu4AEja-UvYjX1_I0lqehZLV3GdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742957171701-7ogjro6hmjbrmitne80dq40e6kega84b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'PasswordReset.dart';
 import 'register.dart';
@@ -41,6 +42,12 @@ class _MyStatefulWidgetState extends State<login> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  Future LoginSuccessDialog() => showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text("Success"),
+    ),
+  );
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -112,6 +119,11 @@ class _MyStatefulWidgetState extends State<login> {
                   child: const Text('Login',
                       style: TextStyle(fontSize: 20, color: Colors.white)),
                   onPressed: () {
+                    FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: nameController.text,
+                        password: passwordController.text).then((value) {
+                        LoginSuccessDialog();
+                    });
                     setState(() {
                       nameController.text.isEmpty ? _nameError = true : _nameError = false;
                       passwordController.text.isEmpty ? _passEmpty1 = true : _passEmpty1 = false;
