@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'PasswordReset.dart';
 import 'register.dart';
+import 'AccountHome.dart';
 
 void main() => runApp(const Login());
 
@@ -122,7 +123,8 @@ class _MyStatefulWidgetState extends State<login> {
                     FirebaseAuth.instance.signInWithEmailAndPassword(
                         email: nameController.text,
                         password: passwordController.text).then((value) {
-                        LoginSuccessDialog();
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => AccountHome()));
                     });
                     setState(() {
                       nameController.text.isEmpty ? _nameError = true : _nameError = false;
