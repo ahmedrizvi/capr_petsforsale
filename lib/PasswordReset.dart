@@ -46,6 +46,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
   bool _1CapitalCharacters = false;
 
   final textbg = const Color(0xFF3D3D3D);
+  var btn_color = const Color(0xFF000000);
   static const String _title = 'Pet Ordis';
   
   TextEditingController nameController = TextEditingController();
@@ -180,7 +181,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: _8Characters ? Colors.blueAccent : Colors.transparent,
+                    color: _8Characters ? Colors.blueAccent : btn_color,
                     border: _8Characters ? Border.all(color: Colors.transparent) :
                     Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
@@ -200,7 +201,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: _1NumCharacters ? Colors.blueAccent : Colors.transparent,
+                    color: _1NumCharacters ? Colors.blueAccent : btn_color,
                     border: _1NumCharacters ? Border.all(color: Colors.transparent) :
                     Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
@@ -220,7 +221,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: _1SpeCharacters ? Colors.blueAccent : Colors.transparent,
+                    color: _1SpeCharacters ? Colors.blueAccent : btn_color,
                     border: _1SpeCharacters ? Border.all(color: Colors.transparent)
                         : Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
@@ -240,7 +241,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: _1CapitalCharacters ? Colors.blueAccent : Colors.transparent,
+                    color: _1CapitalCharacters ? Colors.blueAccent : btn_color,
                     border: _1CapitalCharacters ? Border.all(color: Colors.transparent)
                         :Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
@@ -295,6 +296,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                       nameController.text.isEmpty ? _nameError = true : _nameError = false;
                       pass.text.isEmpty ? _passEmpty1 = true : _passEmpty1 = false;
                       conform_Pass.text.isEmpty ? _passEmpty2 = true : _passEmpty2 = false;
+                      btn_color = const Color(0xFFA30000);
                     });
                     if(nameController.text.isNotEmpty)
                       {

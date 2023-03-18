@@ -37,6 +37,7 @@ class MyStatefulWidget  extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget > {
 
   final textbg = const Color(0xFF3D3D3D);
+  var btn_color = const Color(0xFF000000);
 
   bool _FnameError = false, _LnameError = false, _emailError = false,
       _passError = false, _CpassError = false, _isvisible = false, _isvisible2 = false;
@@ -224,7 +225,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: _8Characters ? Colors.blueAccent : Colors.transparent,
+                    color: _8Characters ? Colors.blueAccent : btn_color,
                     border: _8Characters ? Border.all(color: Colors.transparent) :
                     Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
@@ -244,7 +245,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: _1NumCharacters ? Colors.blueAccent : Colors.transparent,
+                    color: _1NumCharacters ? Colors.blueAccent : btn_color,
                     border: _1NumCharacters ? Border.all(color: Colors.transparent) :
                     Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
@@ -264,7 +265,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: _1SpeCharacters ? Colors.blueAccent : Colors.transparent,
+                    color: _1SpeCharacters ? Colors.blueAccent : btn_color,
                     border: _1SpeCharacters ? Border.all(color: Colors.transparent)
                     : Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
@@ -284,7 +285,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: _1CapitalCharacters ? Colors.blueAccent : Colors.transparent,
+                    color: _1CapitalCharacters ? Colors.blueAccent : btn_color,
                     border: _1CapitalCharacters ? Border.all(color: Colors.transparent)
                         :Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
@@ -346,6 +347,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                       emailController.text.isEmpty ? _emailError = true : _emailError = false;
                       passwordController.text.isEmpty ? _passError = true : _passError = false;
                       confPasswordController.text.isEmpty ? _CpassError = true : _CpassError = false;
+                      btn_color = const Color(0xFFA30000);
                     });
                     if(_FnameController.text.isNotEmpty & _LnameController.text.isNotEmpty & emailController.text.isNotEmpty)
                     {
