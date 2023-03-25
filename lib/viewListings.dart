@@ -30,7 +30,7 @@ class ListingsPage extends StatelessWidget {
     final firestore = FirebaseFirestore.instance;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Listings"),
+        title: Text("Listings For Sale Near You"),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: firestore.collection("listings").snapshots(),
@@ -51,17 +51,48 @@ class ListingsPage extends StatelessWidget {
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               final listing = snapshot.data!.docs[index];
-              return ListTile(
-                title: Text(listing["petName:"]),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Type: ${listing["petType:"]}"),
-                    Text("Breed: ${listing["petBreed:"]}"),
-                    Text("Age: ${listing["petAge:"]}"),
-                    Text("Price: ${listing["petPrice:"]}"),
-                    Text("Description: ${listing["petDescription:"]}"),
-                  ],
+              return Card(
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: InkWell(
+                  onTap: () {
+                    // Do something when the card is tapped
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          listing["petName:"],
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          "Type: ${listing["petType:"]}",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          "Breed: ${listing["petBreed:"]}",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          "Age: ${listing["petAge:"]}",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          "Price: ${listing["petPrice:"]}",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          "Description: ${listing["petDescription:"]}",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               );
             },
@@ -71,4 +102,5 @@ class ListingsPage extends StatelessWidget {
     );
   }
 }
+
 
