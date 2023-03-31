@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'AccountHome.dart';
 
 void main() {
   runApp(AccountInfo());
@@ -15,25 +16,25 @@ class AccountInfo extends StatelessWidget {
     );
   }
 }
-
 class AccountInfoPage extends StatefulWidget {
   @override
   _AccountInfoPageState createState() => _AccountInfoPageState();
 }
-
 class _AccountInfoPageState extends State<AccountInfoPage> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String? _email;
   String? _displayName;
   String? _userId;
-
+  String? _firstName;
+  String? _lastName;
+  String? _phoneNumber;
+  String? _address;
   @override
   void initState() {
     super.initState();
     _getUserInfo();
   }
-
   void _getUserInfo() async {
     User? user = _auth.currentUser;
     if (user != null) {
@@ -52,6 +53,10 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
         setState(() {
           _userId = userDoc.id;
           _displayName = userDoc['user name:'];
+          _firstName = userDoc['first name:'];
+          _lastName = userDoc['last name:'];
+          _phoneNumber = userDoc['phone number:'];
+          _address = userDoc['address:'];
         });
       }
     }
@@ -90,15 +95,53 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
             ),
             SizedBox(height: 24.0),
             Text(
-              'User ID',
+              'First Name',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8.0),
             Text(
-              _userId ?? '',
+              _firstName ?? '',
               style: TextStyle(fontSize: 16.0),
             ),
+            SizedBox(height: 24.0),
+            Text(
+              'Last Name',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8.0),
+            Text(
+              _lastName ?? '',
+              style: TextStyle(fontSize: 16.0),
+            ),
+            SizedBox(height: 24.0),
+            Text(
+              'Phone Number',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8.0),
+            Text(
+              _phoneNumber ?? '',
+              style: TextStyle(fontSize: 16.0),
+            ),
+            SizedBox(height: 24.0),
+            Text(
+              'Address',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8.0),
+            Text(
+              _address ?? '',
+              style: TextStyle(fontSize: 16.0),
+            ),
+            ElevatedButton(
+              child: Text('Go Back'),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AccountHome()));
+              },
+            ),
           ],
+
         ),
       ),
     );

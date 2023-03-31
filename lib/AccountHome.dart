@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'createListing.dart';
 import 'viewListings.dart';
 import 'accountInfo.dart';
+import 'myListings.dart';
 
 void main() {
   runApp(AccountHome());
@@ -14,116 +15,122 @@ class AccountHome extends StatelessWidget {
     return MaterialApp(
       title: 'Pet Listings',
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.tealAccent,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Account Home'),
-        ),
-        body: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              FutureBuilder<User?>(
-                future: Future.value(FirebaseAuth.instance.currentUser),
-                builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    User? user = snapshot.data;
-                    String userName = user?.displayName ?? user?.email ?? 'Unknown';
-                    return Text(
-                      'Welcome, $userName',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                },
-              ),
-              SizedBox(height: 16.0),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // Handle account info button press
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => AccountInfo()));
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.person),
-                          SizedBox(height: 8.0),
-                          Text('Account Info'),
-                        ],
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Handle create listing button press
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => CreateListing()));
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.add),
-                          SizedBox(height: 8.0),
-                          Text('Create Listing'),
-                        ],
-                      ),
-                    ),
-                  ],
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
                 ),
               ),
-              SizedBox(height: 16.0),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // Handle my pet listings button press
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.pets),
-                          SizedBox(height: 8.0),
-                          Text('My Pet Listings'),
-                        ],
-                      ),
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: Image.network(
+                      'https://hips.hearstapps.com/goodhousekeeping/assets/17/40/1507316792-havenese.jpg',
+                      fit: BoxFit.cover,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Handle view other pet listings button press
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => viewListings()));
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.search),
-                          SizedBox(height: 8.0),
-                          Text('View Other Pet Listings'),
-                        ],
-                      ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        FutureBuilder<User?>(
+                          future: Future.value(FirebaseAuth.instance.currentUser),
+                          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+                            if (snapshot.connectionState == ConnectionState.done) {
+                              User? user = snapshot.data;
+                              String userName = user?.displayName ?? user?.email ?? 'Unknown';
+                              return Text(
+                                'Welcome, $userName',
+                                style: TextStyle(
+                                  fontSize: 30.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              );
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          },
+                        ),
+                        Text(
+                          'Find Your New Pet Companion',
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 16.0),
+            Padding(
+              padding: EdgeInsets.only(left: 16.0),
+              child: Text(
+                'Browse Pet Listings',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ],
-          ),
+            ),
+            SizedBox(height: 16.0),
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text('Account Info'),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AccountInfo()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.add),
+                    title: Text('Create Listing'),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => CreateListing()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.pets),
+                    title: Text('My Pet Listings'),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => myListings()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.search),
+                    title: Text('View Other Pet Listings'),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => viewListings()));
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
+
 
 

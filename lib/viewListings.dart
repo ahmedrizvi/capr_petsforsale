@@ -31,6 +31,10 @@ class ListingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Listings For Sale Near You"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: firestore.collection("listings").snapshots(),

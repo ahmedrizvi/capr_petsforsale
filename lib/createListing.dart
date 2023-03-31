@@ -70,7 +70,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       title: Text("Successfully created pet listing!"),
     ),
   );
-  Future addPetListing(String petName, String petType, String petBreed, int age, double price, String petDescription) async {
+
+  Future addPetListing(String petName, String petType, String petBreed, int age, double price, String petDescription, String? listingOwnerEmail) async {
     await FirebaseFirestore.instance.collection('listings').add({
       'petName:': petName,
       'petType:': petType,
@@ -78,6 +79,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       'petAge:': age,
       'petPrice:': price,
       'petDescription:': petDescription,
+      'listingOwnerEmail:': listingOwnerEmail,
     });
   }
   @override
@@ -259,13 +261,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     _petAgeController.text.isNotEmpty &
                     _petPriceController.text.isNotEmpty &
                     _petDescriptionController.text.isNotEmpty) {
+                      String? userName = FirebaseAuth.instance.currentUser?.email;
+
                       addPetListing(
                           _petNameController.text.trim(),
                           _petTypeController.text.trim(),
                           _petBreedController.text.trim(),
                           int.parse(_petAgeController.text.trim()),
                           double.parse(_petPriceController.text.trim()),
-                          _petDescriptionController.text.trim()
+                          _petDescriptionController.text.trim(),
+                          userName,
                       );
                       openDialog();
                       Navigator.push(context,
