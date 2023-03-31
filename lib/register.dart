@@ -87,7 +87,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       'email:': email,
       'phone number:': phoneNumber,
       'address:': address,
-    } as Map<String, dynamic>);
+    });
   }
   @override
   Widget build(BuildContext context) {

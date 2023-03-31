@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'createListing.dart';
+import 'viewListings.dart';
+import 'accountInfo.dart';
 
 void main() {
   runApp(AccountHome());
@@ -50,6 +52,8 @@ class AccountHome extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Handle account info button press
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => AccountInfo()));
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -99,6 +103,8 @@ class AccountHome extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Handle view other pet listings button press
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => viewListings()));
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
