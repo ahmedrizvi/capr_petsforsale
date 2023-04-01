@@ -4,6 +4,7 @@ import 'createListing.dart';
 import 'viewListings.dart';
 import 'accountInfo.dart';
 import 'myListings.dart';
+import 'viewMessages.dart';
 
 void main() {
   runApp(AccountHome());
@@ -47,11 +48,15 @@ class AccountHome extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         FutureBuilder<User?>(
-                          future: Future.value(FirebaseAuth.instance.currentUser),
-                          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-                            if (snapshot.connectionState == ConnectionState.done) {
+                          future:
+                              Future.value(FirebaseAuth.instance.currentUser),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<User?> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
                               User? user = snapshot.data;
-                              String userName = user?.displayName ?? user?.email ?? 'Unknown';
+                              String userName =
+                                  user?.displayName ?? user?.email ?? 'Unknown';
                               return Text(
                                 'Welcome, $userName',
                                 style: TextStyle(
@@ -98,28 +103,50 @@ class AccountHome extends StatelessWidget {
                     leading: Icon(Icons.person),
                     title: Text('Account Info'),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => AccountInfo()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AccountInfo()));
                     },
                   ),
                   ListTile(
                     leading: Icon(Icons.add),
                     title: Text('Create Listing'),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => CreateListing()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateListing()));
                     },
                   ),
                   ListTile(
                     leading: Icon(Icons.pets),
                     title: Text('My Pet Listings'),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => myListings()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => myListings()));
                     },
                   ),
                   ListTile(
                     leading: Icon(Icons.search),
                     title: Text('View Other Pet Listings'),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => viewListings()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => viewListings()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.message),
+                    title: Text('View Messages'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatScreen()));
                     },
                   ),
                 ],
@@ -131,6 +158,3 @@ class AccountHome extends StatelessWidget {
     );
   }
 }
-
-
-
