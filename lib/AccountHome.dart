@@ -2,6 +2,7 @@ import 'package:capr_petsforsale/viewContacts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'createListing.dart';
+import 'login.dart';
 import 'viewListings.dart';
 import 'accountInfo.dart';
 import 'myListings.dart';
@@ -148,6 +149,14 @@ class AccountHome extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ContactsScreen()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.logout),
+                    title: Text('Logout'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()));
                     },
                   ),
                 ],
