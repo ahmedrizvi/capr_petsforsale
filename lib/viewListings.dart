@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'AccountHome.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +35,8 @@ class ListingsPage extends StatelessWidget {
         title: Text("Listings For Sale Near You"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AccountHome())),
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -126,7 +128,3 @@ class ListingsPage extends StatelessWidget {
     );
   }
 }
-
-
-
-

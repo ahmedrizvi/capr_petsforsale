@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'AccountHome.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -37,7 +39,8 @@ class ListingsPage extends StatelessWidget {
         title: Text("Your Pet Listings"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AccountHome())),
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
