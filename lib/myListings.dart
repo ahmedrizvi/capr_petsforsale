@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'AccountHome.dart';
+import 'EditListingPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,54 +74,74 @@ class ListingsPage extends StatelessWidget {
                   },
                   child: Padding(
                     padding: EdgeInsets.all(16),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
                       children: [
-                        Expanded(
-                          flex: 3,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                listing["petName:"],
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    listing["petName:"],
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    "Type: ${listing["petType:"]}",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    "Breed: ${listing["petBreed:"]}",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    "Age: ${listing["petAge:"]}",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    "Price: ${listing["petPrice:"]}",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    "Description: ${listing["petDescription:"]}",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 8),
-                              Text(
-                                "Type: ${listing["petType:"]}",
-                                style: TextStyle(fontSize: 16),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: CachedNetworkImage(
+                                imageUrl: imageUrl,
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
-                              Text(
-                                "Breed: ${listing["petBreed:"]}",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                "Age: ${listing["petAge:"]}",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                "Price: ${listing["petPrice:"]}",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                "Description: ${listing["petDescription:"]}",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        Expanded(
-                          flex: 2,
-                          child: CachedNetworkImage(
-                            imageUrl: imageUrl,
-                            placeholder: (context, url) =>
-                                CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditListingPage(listing: listing),
+                                  ),
+                                );
+                              },
+                              child: Text('Edit Listing'),
+                            ),
+                          ],
                         ),
                       ],
                     ),
