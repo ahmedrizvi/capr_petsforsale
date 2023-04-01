@@ -1,5 +1,9 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'login.dart';
 
@@ -8,7 +12,7 @@ void main() => runApp(const Register());
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);
 
-  static const String _title = 'Canis Orbis';
+  static const String _title = 'Pet Ordis';
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +45,11 @@ class MyStatefulWidget extends StatefulWidget {
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
 }
 
+
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+
   final textbg = const Color(0xFF3D3D3D);
+  var btn_color = const Color(0xFF000000);
 
   bool _FnameError = false,
       _LnameError = false,
@@ -60,9 +67,71 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   bool _1SpeCharacters = false;
   bool _1CapitalCharacters = false;
 
+  bool _8Characters = false;
+  bool _1NumCharacters = false;
+  bool _1SpeCharacters = false;
+  bool _1CapitalCharacters = false;
+
   String _CpassMessage = '';
 
-  onPasswordChanged(String password) {}
+  // watches password changes and validates the text
+  onPasswordChanged(String password)
+  {
+    setState(() {
+      final capitalRegex = RegExp(r'[A-Z]');
+      final numericRegex = RegExp(r'[0-9]');
+      final specialRegex = RegExp(r'[!@#\$&*~]');
+
+      _passError = false;
+      _1NumCharacters = false;
+      _1SpeCharacters = false;
+      _1CapitalCharacters = false;
+      _8Characters = false;
+      if(password.length >= 8)
+        {
+          _8Characters = true;
+        }
+      if(numericRegex.hasMatch(password))
+        {
+          _1NumCharacters = true;
+        }
+      if (specialRegex.hasMatch(password))
+        {
+          _1SpeCharacters = true;
+        }
+      if (capitalRegex.hasMatch(password))
+        {
+          _1CapitalCharacters = true;
+        }
+    });
+  }
+
+  FnameChange(String Name)
+  {
+    setState(() {
+      _FnameError = false;
+    });
+  }
+  LnameChange(String Name)
+  {
+    setState(() {
+      _LnameError = false;
+    });
+  }
+
+  emailChange (String email)
+  {
+    setState(() {
+      _emailError = false;
+    });
+  }
+
+  cPassChange (String cpass)
+  {
+    setState(() {
+      _CpassError = false;
+    });
+  }
 
   TextEditingController _FnameController = TextEditingController();
   TextEditingController _LnameController = TextEditingController();
@@ -138,19 +207,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     labelStyle: const TextStyle(color: Colors.white70),
                     errorText:
                         _LnameError ? 'Please Enter Your Last Name' : null,
+
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-            ]),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
-              child: TextField(
-                onTap: () {
-                  _usernameError = false;
-                },
+
+              ),),
+              const SizedBox(width: 20,),
+              Expanded(child: TextField(
+                onChanged: (_LnameController) => LnameChange(_LnameController),
+
                 style: const TextStyle(color: Colors.white),
                 controller: userNameController,
                 decoration: InputDecoration(
@@ -170,9 +235,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
               child: TextField(
+
                 onTap: () {
                   _emailError = false;
                 },
+
                 style: const TextStyle(color: Colors.white),
                 controller: emailController,
                 decoration: InputDecoration(
@@ -192,8 +259,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
+
                 onChanged: (passwordController) =>
                     onPasswordChanged(passwordController),
+
                 style: const TextStyle(color: Colors.white),
                 controller: passwordController,
                 obscureText: !_isvisible,
@@ -225,9 +294,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+
+            SizedBox(height: 10,),
+
             Row(
               children: [
                 AnimatedContainer(
@@ -235,25 +304,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
+
+                    color: _8Characters ? Colors.blueAccent : btn_color,
+                    border: _8Characters ? Border.all(color: Colors.transparent) :
+                    Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Center(
-                    child: Icon(Icons.check, color: Colors.black, size: 15),
-                  ),
+                  child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                const Text(
-                  "Contains at least 8 characters",
-                  style: TextStyle(color: Colors.white),
-                ),
+                SizedBox(width: 10,),
+                const Text ("Contains at least 8 characters",
+                style: TextStyle(color: Colors.white),),
               ],
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10,),
             Row(
               children: [
                 AnimatedContainer(
@@ -287,25 +351,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
+
+                    color: _1SpeCharacters ? Colors.blueAccent : btn_color,
+                    border: _1SpeCharacters ? Border.all(color: Colors.transparent)
+                    : Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Center(
-                    child: Icon(Icons.check, color: Colors.black, size: 15),
-                  ),
+                  child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                const Text(
-                  "Contains at least 1 special character",
-                  style: TextStyle(color: Colors.white),
-                ),
+                SizedBox(width: 10,),
+                const Text ("Contains at least 1 special character",
+                  style: TextStyle(color: Colors.white),),
               ],
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10,),
+
             Row(
               children: [
                 AnimatedContainer(
@@ -313,28 +373,24 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
+
+                    color: _1CapitalCharacters ? Colors.blueAccent : btn_color,
+                    border: _1CapitalCharacters ? Border.all(color: Colors.transparent)
+                        :Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Center(
-                    child: Icon(Icons.check, color: Colors.black, size: 15),
-                  ),
+                  child: Center(child: Icon(Icons.check, color: Colors.black, size:15),),
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                const Text(
-                  "Contains at least 1 capital letter",
-                  style: TextStyle(color: Colors.white),
-                ),
+                SizedBox(width: 10,),
+                const Text ("Contains at least 1 capital letter",
+                  style: TextStyle(color: Colors.white),),
               ],
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10,),
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                onChanged: (confPasswordController) => cPassChange(confPasswordController),
                 style: const TextStyle(color: Colors.white),
                 obscureText: !_isvisible2,
                 controller: confPasswordController,
@@ -443,6 +499,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       phoneNumberController.text.isEmpty
                           ? _phoneNumberError = true
                           : _phoneNumberError = false;
+
                     });
                     if (_FnameController.text.isNotEmpty &
                         _LnameController.text.isNotEmpty &

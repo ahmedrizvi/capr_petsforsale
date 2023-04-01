@@ -11,6 +11,7 @@ class Login extends StatelessWidget {
 
   static const String _title = 'Canis';
 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,7 +23,7 @@ class Login extends StatelessWidget {
           backgroundColor: Colors.black,
             elevation: 0,
             centerTitle: true,
-            title: const Text("Canis",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Palatino'),)),
+            title: const Text("Pet Ordis",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Palatino'),)),
         body: const login(),
       ),
     );
@@ -37,6 +38,8 @@ class login extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<login> {
+
+
   final textbg = const Color(0xFF3D3D3D);
   bool _isvisible = false, _nameError = false, _passEmpty1=false;
 
@@ -49,6 +52,20 @@ class _MyStatefulWidgetState extends State<login> {
       title: Text("Success"),
     ),
   );
+
+  emailChange (String email)
+  {
+    setState(() {
+      _nameError = false;
+    });
+  }
+
+  passwordChange (String password)
+  {
+    setState(() {
+      _passEmpty1 = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -58,6 +75,7 @@ class _MyStatefulWidgetState extends State<login> {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                onChanged: (nameController) => emailChange(nameController),
                 style: const TextStyle(color: Colors.white),
                 controller: nameController,
                 decoration: InputDecoration(
@@ -76,6 +94,7 @@ class _MyStatefulWidgetState extends State<login> {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                onChanged: (passwordController) => passwordChange(passwordController),
                 style: const TextStyle(color: Colors.white),
                 controller: passwordController,
                 obscureText: !_isvisible,
@@ -114,9 +133,17 @@ class _MyStatefulWidgetState extends State<login> {
               },
             ),
             Container(
-                height: 400,
-                padding: const EdgeInsets.fromLTRB(50, 340, 50, 10),
+
+                height: 100,
+                padding: const EdgeInsets.fromLTRB(50, 50, 50, 10),
                 child: ElevatedButton(
+                  style: ButtonStyle(
+                      shape:  MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )
+                      )
+                  ),
                   child: const Text('Login',
                       style: TextStyle(fontSize: 20, color: Colors.white)),
                   onPressed: () {
