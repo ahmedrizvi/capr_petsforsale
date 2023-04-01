@@ -1,13 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'PasswordReset.dart';
 import 'register.dart';
+import 'AccountHome.dart';
 
 void main() => runApp(const Login());
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
-  static const String _title = 'Pet Ordis';
+  static const String _title = 'Canis';
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +45,13 @@ class _MyStatefulWidgetState extends State<login> {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  Future LoginSuccessDialog() => showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text("Success"),
+    ),
+  );
 
   emailChange (String email)
   {
@@ -123,6 +133,7 @@ class _MyStatefulWidgetState extends State<login> {
               },
             ),
             Container(
+
                 height: 100,
                 padding: const EdgeInsets.fromLTRB(50, 50, 50, 10),
                 child: ElevatedButton(
@@ -136,6 +147,12 @@ class _MyStatefulWidgetState extends State<login> {
                   child: const Text('Login',
                       style: TextStyle(fontSize: 20, color: Colors.white)),
                   onPressed: () {
+                    FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: nameController.text,
+                        password: passwordController.text).then((value) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => AccountHome()));
+                    });
                     setState(() {
                       nameController.text.isEmpty ? _nameError = true : _nameError = false;
                       passwordController.text.isEmpty ? _passEmpty1 = true : _passEmpty1 = false;

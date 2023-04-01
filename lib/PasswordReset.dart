@@ -16,25 +16,31 @@ class Forget extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-            elevation:0,
+            elevation: 0,
             centerTitle: true,
             backgroundColor: Colors.black,
-            title: const Text("Pet Ordis",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Palatino'),)),
-        body: const MyStatefulWidget (),
+            title: const Text(
+              "Canis",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Palatino'),
+            )),
+        body: const MyStatefulWidget(),
       ),
     );
   }
 }
 
-class MyStatefulWidget  extends StatefulWidget {
-  const MyStatefulWidget ({Key? key}) : super(key: key);
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({Key? key}) : super(key: key);
 
   @override
-  State<MyStatefulWidget > createState() => _MyStatefulWidgetState();
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget > {
 
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   bool _isvisible = false, _isvisible2 = false;
   bool _nameError = false, _passEmpty1 = false, _passEmpty2 = false;
@@ -46,20 +52,31 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
   bool _1CapitalCharacters = false;
 
   final textbg = const Color(0xFF3D3D3D);
+
   var btn_color = const Color(0xFF000000);
   static const String _title = 'Pet Ordis';
   
+
   TextEditingController nameController = TextEditingController();
   TextEditingController pass = TextEditingController();
-  TextEditingController conform_Pass = TextEditingController();
+  TextEditingController confirm_Pass = TextEditingController();
 
-  void dispose()
-  {
+  void dispose() {
     nameController.dispose();
     pass.dispose();
-    conform_Pass.dispose();
+    confirm_Pass.dispose();
     super.dispose();
   }
+
+
+  void clearText() {
+    pass.clear();
+    confirm_Pass.clear();
+  }
+
+  void errorRun() {
+    openDialog();
+    clearText();
 
   onNameChange(String name)
   {
@@ -107,15 +124,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
     });
   }
 
-
   Future openDialog() => showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-        title:  Text("Success"),
-      ),
-  );
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Success"),
+        ),
+      );
   @override
-
   Widget build(BuildContext context) {
     return Padding(
           padding: const EdgeInsets.all(10),
@@ -136,15 +151,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   filled: true,
                   fillColor: textbg,
                   border: OutlineInputBorder(
+
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.black)
-                  ),
-                  labelText: 'Enter Your Email Address',
-                  labelStyle: const TextStyle(color: Colors.white70),
-                  errorText: _nameError ? 'Please enter your email' : null,
-                ),
+                    borderSide: const BorderSide(color: Colors.black)),
+                labelText: 'Enter Your Email Address',
+                labelStyle: const TextStyle(color: Colors.white70),
+                errorText: _nameError ? 'Please enter your email' : null,
               ),
             ),
+
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
@@ -157,22 +172,30 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                   fillColor: textbg,
                   suffixIcon: IconButton(
                     onPressed: (){
+
                       setState(() {
                         _isvisible = !_isvisible;
                       });
                     },
-                      icon: _isvisible ? Icon(Icons.visibility, color: Colors.white,) : Icon(Icons.visibility_off, color: Colors.grey,)
-                  ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.grey)
-                  ),
-                  labelText: 'Enter Your New Password',
-                  labelStyle: const TextStyle(color: Colors.white70),
-                  errorText: _passEmpty1 ? 'Please Enter Your New Password' : null,
-                ),
+                    icon: _isvisible
+                        ? Icon(
+                            Icons.visibility,
+                            color: Colors.white,
+                          )
+                        : Icon(
+                            Icons.visibility_off,
+                            color: Colors.grey,
+                          )),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.grey)),
+                labelText: 'Enter Your New Password',
+                labelStyle: const TextStyle(color: Colors.white70),
+                errorText:
+                    _passEmpty1 ? 'Please Enter Your New Password' : null,
               ),
             ),
+
             SizedBox(height: 10,),
             Row(
               children: [
@@ -270,16 +293,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
                         _isvisible2 = !_isvisible2;
                       });
                     },
-                    icon: _isvisible2 ? Icon(Icons.visibility, color: Colors.white,) : Icon(Icons.visibility_off, color: Colors.grey,)
-                  ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.blueAccent)
-                  ),
-                  labelText: 'Re-Enter Your New Password',
-                  labelStyle: const TextStyle(color: Colors.white70),
-                  errorText: _passEmpty2 ? _passMessage : null,
-                ),
+                    icon: _isvisible2
+                        ? Icon(
+                            Icons.visibility,
+                            color: Colors.white,
+                          )
+                        : Icon(
+                            Icons.visibility_off,
+                            color: Colors.grey,
+                          )),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.blueAccent)),
+                labelText: 'Re-Enter Your New Password',
+                labelStyle: const TextStyle(color: Colors.white70),
+                errorText: _passEmpty2 ? _passMessage : null,
               ),
             ),
             Container(
@@ -336,6 +364,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget > {
             ),
           ],
           ),
-        );
+        ],
+      ),
+    );
   }
 }
