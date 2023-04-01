@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rxdart/rxdart.dart';
 import 'viewMessages.dart';
 
 class ContactsScreen extends StatefulWidget {
@@ -74,11 +75,20 @@ class _ContactsScreenState extends State<ContactsScreen> {
       body: Column(
         children: [
           Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('contacts')
-                  .where('userId', isEqualTo: userId?.uid)
-                  .snapshots(),
+            child: StreamBuilder<List<QuerySnapshot>>(
+              stream: Rx.combineLatest2(
+                FirebaseFirestore.instance
+                    .collection('contacts')
+                    .where('userId', isEqualTo: userId?.uid)
+                    .snapshots(),
+                FirebaseFirestore.instance
+                    .collection('contacts')
+                    .where('email', isEqualTo: userId?.email)
+                    .snapshots(),
+                    (QuerySnapshot query1, QuerySnapshot query2) {
+                  return [query1, query2];
+                },
+              ),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
@@ -88,13 +98,17 @@ class _ContactsScreenState extends State<ContactsScreen> {
                   case ConnectionState.waiting:
                     return Center(child: CircularProgressIndicator());
                   default:
+                    List<QueryDocumentSnapshot> documents = [];
+                    snapshot.data?.forEach((querySnapshot) {
+                      documents.addAll(querySnapshot.docs);
+                    });
                     return ListView.builder(
-                      itemCount: snapshot.data?.docs.length,
+                      itemCount: documents.length,
                       itemBuilder: (context, index) {
-                        final contact = snapshot.data?.docs[index];
-                        final String name = contact?['name'];
-                        final String email = contact?['email'];
-                        final String chatId = contact?['id'];
+                        final contact = documents[index];
+                        final String name = contact['name'];
+                        final String email = contact['email'];
+                        final String chatId = contact['id'];
 
                         return ListTile(
                           title: Text(name),
@@ -115,6 +129,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
               },
             ),
           ),
+
           Container(
             margin: EdgeInsets.all(10.0),
             child: Row(
