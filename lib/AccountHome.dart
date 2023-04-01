@@ -1,3 +1,4 @@
+import 'package:capr_petsforsale/viewContacts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'createListing.dart';
@@ -146,7 +147,7 @@ class AccountHome extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ChatScreen()));
+                              builder: (context) => ContactsScreen()));
                     },
                   ),
                 ],
