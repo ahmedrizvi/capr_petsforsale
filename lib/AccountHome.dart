@@ -155,10 +155,29 @@ class AccountHome extends StatelessWidget {
                     leading: Icon(Icons.logout),
                     title: Text('Logout'),
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Logout'),
+                              content: Text('Are you sure you want to logout?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, 'No'),
+                                  child: const Text('No'),
+                                ),
+                                TextButton(
+                                    onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Login())),
+                                    child: Text('Yes')),
+                              ],
+                            );
+                          });
                     },
-                  ),
+                  )
                 ],
               ),
             ),
