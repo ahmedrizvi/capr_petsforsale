@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,6 +56,7 @@ class ListingsPage extends StatelessWidget {
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               final listing = snapshot.data!.docs[index];
+              final imageUrl = listing["imageUrl:"];
               return Card(
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: InkWell(
@@ -63,36 +65,54 @@ class ListingsPage extends StatelessWidget {
                   },
                   child: Padding(
                     padding: EdgeInsets.all(16),
-                    child: Column(
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          listing["petName:"],
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                        Expanded(
+                          flex: 3,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                listing["petName:"],
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                "Type: ${listing["petType:"]}",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                "Breed: ${listing["petBreed:"]}",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                "Age: ${listing["petAge:"]}",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                "Price: ${listing["petPrice:"]}",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                "Description: ${listing["petDescription:"]}",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(height: 8),
-                        Text(
-                          "Type: ${listing["petType:"]}",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          "Breed: ${listing["petBreed:"]}",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          "Age: ${listing["petAge:"]}",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          "Price: ${listing["petPrice:"]}",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          "Description: ${listing["petDescription:"]}",
-                          style: TextStyle(fontSize: 16),
+                        Expanded(
+                          flex: 2,
+                          child: CachedNetworkImage(
+                            imageUrl: imageUrl,
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
                         ),
                       ],
                     ),
@@ -106,5 +126,7 @@ class ListingsPage extends StatelessWidget {
     );
   }
 }
+
+
 
 

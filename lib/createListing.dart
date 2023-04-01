@@ -1,8 +1,11 @@
 import 'dart:ffi';
+import 'dart:io';
 import 'package:capr_petsforsale/AccountHome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 
 void main() {
@@ -20,7 +23,7 @@ class CreateListing extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: _title,
       home: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.greenAccent,
         appBar: AppBar(
             backgroundColor: Colors.black,
             elevation: 0,
@@ -54,8 +57,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       _pAgeError = false,
       _pPriceError = false,
       _pDescriptionError = false;
-
-
+  late String url;
+  XFile? image;
 
   TextEditingController _petNameController = TextEditingController();
   TextEditingController _petTypeController = TextEditingController();
@@ -71,7 +74,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     ),
   );
 
-  Future addPetListing(String petName, String petType, String petBreed, int age, double price, String petDescription, String? listingOwnerEmail) async {
+  Future addPetListing(String petName, String petType, String petBreed, int age, double price, String petDescription, String? listingOwnerEmail, String url) async {
     await FirebaseFirestore.instance.collection('listings').add({
       'petName:': petName,
       'petType:': petType,
@@ -80,6 +83,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       'petPrice:': price,
       'petDescription:': petDescription,
       'listingOwnerEmail:': listingOwnerEmail,
+      'imageUrl:': url,
     });
   }
   @override
@@ -208,6 +212,25 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 100,),
+                  image==null?Icon(Icons.image):Image.file(File(image!.path)),
+                  ElevatedButton(onPressed: () async {
+                      image = await ImagePicker().pickImage(source: ImageSource.gallery);
+                      setState(() {
+
+                      });
+                      }, child: Text(
+                          "Select Image")
+                      ),
+                  ],
+
+                ),
+              ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
               child: TextField(
                 onTap: () {
                   _pDescriptionError = false;
@@ -234,7 +257,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: ElevatedButton(
                   child: const Text('Create',
                       style: TextStyle(fontSize: 20, color: Colors.white)),
-                  onPressed: () {
+                  onPressed: () async {
+                    var storage=FirebaseStorage.instance.ref().child("photos/${image!.name}");
+                    var uploadtask=storage.putFile(File(image!.path));
+                    await uploadtask.whenComplete((){
+                      storage.getDownloadURL().then((fileUrl){
+                        setState(() {
+                          url = fileUrl.toString();
+                        });
+                      });
+                    });
                     setState(() {
                       _petNameController.text.isEmpty
                           ? _pNameError = true
@@ -262,15 +294,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     _petPriceController.text.isNotEmpty &
                     _petDescriptionController.text.isNotEmpty) {
                       String? userName = FirebaseAuth.instance.currentUser?.email;
-
                       addPetListing(
-                          _petNameController.text.trim(),
-                          _petTypeController.text.trim(),
-                          _petBreedController.text.trim(),
-                          int.parse(_petAgeController.text.trim()),
-                          double.parse(_petPriceController.text.trim()),
-                          _petDescriptionController.text.trim(),
-                          userName,
+                        _petNameController.text.trim(),
+                        _petTypeController.text.trim(),
+                        _petBreedController.text.trim(),
+                        int.parse(_petAgeController.text.trim()),
+                        double.parse(_petPriceController.text.trim()),
+                        _petDescriptionController.text.trim(),
+                        userName,
+                        url,
                       );
                       openDialog();
                       Navigator.push(context,
