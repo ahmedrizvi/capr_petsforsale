@@ -5,6 +5,10 @@ import 'package:rxdart/rxdart.dart';
 import 'viewMessages.dart';
 
 class ContactsScreen extends StatefulWidget {
+  final String ownerId;
+
+  ContactsScreen({required this.ownerId});
+
   @override
   _ContactsScreenState createState() => _ContactsScreenState();
 }
@@ -12,48 +16,44 @@ class ContactsScreen extends StatefulWidget {
 class _ContactsScreenState extends State<ContactsScreen> {
   final TextEditingController _emailController = TextEditingController();
   User? userId = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.ownerId.isNotEmpty) {
+      _addContact(widget.ownerId);
+    }
+  }
+
   // Add a new contact to Firestore
-  void _addContact() async {
-    final String email = _emailController.text;
-    final QuerySnapshot snapshot = await FirebaseFirestore.instance
+  void _addContact(String ownerId) async {
+    if (ownerId.isEmpty) {
+      return;
+    }
+
+    final DocumentSnapshot user = await FirebaseFirestore.instance
         .collection('users')
-        .where('email:', isEqualTo: email)
+        .doc(ownerId)
         .get();
 
-    if (snapshot.docs.isNotEmpty) {
-      final DocumentSnapshot user = snapshot.docs.first;
-      final String name = user['user name:'];
-      final String id = user.id;
-      final String chatId = _getChatId(id);
+    final String name = user['user name:'];
+    final String email = user['email:'];
+    final String id = user.id;
+    final String chatId = _getChatId(id);
 
-      await FirebaseFirestore.instance.collection('contacts').doc(chatId).set({
-        'id': chatId,
-        'name': name,
-        'email': email,
-        'userId': FirebaseAuth.instance.currentUser?.uid,
-      });
+    await FirebaseFirestore.instance.collection('contacts').doc(chatId).set({
+      'id': chatId,
+      'name': name,
+      'email': email,
+      'userId': FirebaseAuth.instance.currentUser?.uid,
+    });
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ChatScreen(chatId: chatId, title: name),
-        ),
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('User not found'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
-            ),
-          ],
-        ),
-      );
-    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChatScreen(chatId: chatId, title: name),
+      ),
+    );
   }
 
   // Generate a chat ID for the current user and the new contact
@@ -144,7 +144,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 ),
                 SizedBox(width: 10.0),
                 ElevatedButton(
-                  onPressed: _addContact,
+                  onPressed: () => _addContact(_emailController.text),
                   child: Text('Add'),
                 ),
               ],
@@ -155,3 +155,4 @@ class _ContactsScreenState extends State<ContactsScreen> {
     );
   }
 }
+

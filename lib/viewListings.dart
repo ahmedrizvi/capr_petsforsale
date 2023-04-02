@@ -1,3 +1,5 @@
+
+import 'package:capr_petsforsale/pet_details.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -63,7 +65,12 @@ class ListingsPage extends StatelessWidget {
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: InkWell(
                   onTap: () {
-                    // Do something when the card is tapped
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PetDetailsPage(pet: listing),
+                      ),
+                    );
                   },
                   child: Padding(
                     padding: EdgeInsets.all(16),

@@ -142,16 +142,6 @@ class AccountHome extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.message),
-                    title: Text('View Messages'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ContactsScreen()));
-                    },
-                  ),
-                  ListTile(
                     leading: Icon(Icons.logout),
                     title: Text('Logout'),
                     onTap: () {
