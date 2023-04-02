@@ -6,7 +6,7 @@ import 'login.dart';
 import 'viewListings.dart';
 import 'accountInfo.dart';
 import 'myListings.dart';
-import 'viewMessages.dart';
+import 'viewContacts.dart';
 
 void main() {
   runApp(AccountHome());
@@ -139,6 +139,16 @@ class AccountHome extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => viewListings()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.message),
+                    title: Text('View Messages'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ContactsScreen()));
                     },
                   ),
                   ListTile(
