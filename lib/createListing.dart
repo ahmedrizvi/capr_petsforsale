@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:capr_petsforsale/AccountHome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 
 void main() {
   runApp(CreateListing());
@@ -60,6 +58,33 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   late String url;
   XFile? image;
 
+  // Pet types and breeds
+  List<String> petTypes = [
+    'Amphibians',
+    'Arachnids',
+    'Birds',
+    'Caged Animals',
+    'Cats',
+    'Dogs',
+    'Fish',
+    'Reptiles'
+  ];
+
+  Map<String, List<String>> petBreeds = {
+    'Amphibians': ['Frog', 'Salamander', 'Caecilian'],
+    'Arachnids': ['Tarantula', 'Scorpion', 'Orb-weaver Spider'],
+    'Birds': ['Parrot', 'Canary', 'Finch'],
+    'Caged Animals': ['Hamster', 'Rabbit', 'Gerbil'],
+    'Cats': ['Persian', 'Siamese', 'Maine Coon'],
+    'Dogs': ['Golden Retriever', 'Labrador Retriever', 'Bulldog'],
+    'Fish': ['Goldfish', 'Betta', 'Angelfish'],
+    'Reptiles': ['Tortoise', 'Gecko', 'Bearded Dragon']
+  };
+
+  String? _selectedPetType;
+  String? _selectedPetBreed;
+  List<String> _petBreeds = [];
+
   TextEditingController _petNameController = TextEditingController();
   TextEditingController _petTypeController = TextEditingController();
   TextEditingController _petBreedController = TextEditingController();
@@ -68,13 +93,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController _petDescriptionController = TextEditingController();
 
   Future openDialog() => showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text("Successfully created pet listing!"),
-    ),
-  );
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Successfully created pet listing!"),
+        ),
+      );
 
-  Future addPetListing(String petName, String petType, String petBreed, int age, double price, String petDescription, String? listingOwnerEmail, String url) async {
+  Future addPetListing(
+      String petName,
+      String petType,
+      String petBreed,
+      int age,
+      double price,
+      String petDescription,
+      String? listingOwnerEmail,
+      String url) async {
     await FirebaseFirestore.instance.collection('listings').add({
       'petName:': petName,
       'petType:': petType,
@@ -86,6 +119,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       'imageUrl:': url,
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -97,10 +131,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 alignment: Alignment.center,
                 child: const Text('Create Your Pet Listing!',
                     style: TextStyle(color: Colors.grey, fontSize: 18))),
-            Row(children: [
-              const SizedBox(width: 10),
-              Expanded(
-                child: TextField(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
                   style: const TextStyle(color: Colors.white),
                   controller: _petNameController,
                   decoration: InputDecoration(
@@ -112,18 +146,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     ),
                     labelText: 'Pet Name',
                     labelStyle: const TextStyle(color: Colors.white70),
-                    errorText:
-                    _pNameError ? 'Please Enter Your Pet Name' : null,
+                    errorText: _pNameError ? 'Please Enter Your Pet Name' : null,
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              Expanded(
-                child: TextField(
-                  style: const TextStyle(color: Colors.white),
-                  controller: _petTypeController,
+                SizedBox(height: 10),
+                DropdownButtonFormField<String>(
+                  dropdownColor: textbg,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: textbg,
@@ -133,37 +161,57 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     ),
                     labelText: 'Pet Type',
                     labelStyle: const TextStyle(color: Colors.white70),
-                    errorText:
-                    _pTypeError ? 'Please Enter Your Pet Type' : null,
+                    errorText: _pTypeError ? 'Please Select Your Pet Type' : null,
                   ),
+                  value: _selectedPetType,
+                  items: petTypes.map((String petType) {
+                    return DropdownMenuItem<String>(
+                      value: petType,
+                      child: Text(petType, style: const TextStyle(color: Colors.white)),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedPetType = newValue;
+                      _selectedPetBreed = null;
+                      _pTypeError = false;
+                      _petBreeds = petBreeds[newValue!]!;
+                    });
+                  },
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-            ]),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
-              child: TextField(
-                onTap: () {
-                  _pBreedError = false;
-                },
-                style: const TextStyle(color: Colors.white),
-                controller: _petBreedController,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: textbg,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.black),
+                SizedBox(height: 10),
+                DropdownButtonFormField<String>(
+                  dropdownColor: textbg,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: textbg,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.black),
+                    ),
+                    labelText: 'Pet Breed',
+                    labelStyle: const TextStyle(color: Colors.white70),
+                    errorText: _pBreedError ? 'Please Select Your Pet Breed' : null,
                   ),
-                  labelText: 'Pet Breed',
-                  labelStyle: const TextStyle(color: Colors.white70),
-                  errorText:
-                  _pBreedError ? 'Please Enter Your Pet Breed' : null,
+                  value: _selectedPetBreed,
+                  items: _petBreeds.map((String petBreed) {
+                    return DropdownMenuItem<String>(
+                      value: petBreed,
+                      child: Text(petBreed, style: const TextStyle(color: Colors.white)),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedPetBreed = newValue;
+                      _pBreedError = false;
+                    });
+                  },
+                  isExpanded: true,
                 ),
-              ),
+                SizedBox(height: 10),
+              ],
             ),
+
             Container(
               padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
               child: TextField(
@@ -182,12 +230,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   labelText: 'Pet Age',
                   labelStyle: const TextStyle(color: Colors.white70),
                   errorText:
-                  _pAgeError ? 'Please Enter Your Email Address' : null,
+                      _pAgeError ? 'Please Enter Your Email Address' : null,
                 ),
               ),
             ),
-
-
             Container(
               padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
               child: TextField(
@@ -206,7 +252,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   labelText: 'Price',
                   labelStyle: const TextStyle(color: Colors.white70),
                   errorText:
-                  _pPriceError ? 'Please Enter Your Pet Price' : null,
+                      _pPriceError ? 'Please Enter Your Pet Price' : null,
                 ),
               ),
             ),
@@ -215,20 +261,22 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 100,),
-                  image==null?Icon(Icons.image):Image.file(File(image!.path)),
-                  ElevatedButton(onPressed: () async {
-                      image = await ImagePicker().pickImage(source: ImageSource.gallery);
-                      setState(() {
-
-                      });
-                      }, child: Text(
-                          "Select Image")
-                      ),
-                  ],
-
-                ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  image == null
+                      ? Icon(Icons.image)
+                      : Image.file(File(image!.path)),
+                  ElevatedButton(
+                      onPressed: () async {
+                        image = await ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
+                        setState(() {});
+                      },
+                      child: Text("Select Image")),
+                ],
               ),
+            ),
             Container(
               padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
               child: TextField(
@@ -246,22 +294,25 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   ),
                   labelText: 'Pet Description',
                   labelStyle: const TextStyle(color: Colors.white70),
-                  errorText:
-                  _pDescriptionError ? 'Please Enter Your Pet Description' : null,
+                  errorText: _pDescriptionError
+                      ? 'Please Enter Your Pet Description'
+                      : null,
                 ),
               ),
             ),
             Container(
-                height: 250,
-                padding: const EdgeInsets.fromLTRB(40, 150, 40, 40),
+                height: 150,
+                padding: const EdgeInsets.fromLTRB(40, 30, 40, 40),
                 child: ElevatedButton(
                   child: const Text('Create',
                       style: TextStyle(fontSize: 20, color: Colors.white)),
                   onPressed: () async {
-                    var storage=FirebaseStorage.instance.ref().child("photos/${image!.name}");
-                    var uploadtask=storage.putFile(File(image!.path));
-                    await uploadtask.whenComplete((){
-                      storage.getDownloadURL().then((fileUrl){
+                    var storage = FirebaseStorage.instance
+                        .ref()
+                        .child("photos/${image!.name}");
+                    var uploadtask = storage.putFile(File(image!.path));
+                    await uploadtask.whenComplete(() {
+                      storage.getDownloadURL().then((fileUrl) {
                         setState(() {
                           url = fileUrl.toString();
                         });
@@ -287,17 +338,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           ? _pDescriptionError = true
                           : _pDescriptionError = false;
                     });
-                    if (_petNameController.text.isNotEmpty &
-                    _petBreedController.text.isNotEmpty &
-                    _petTypeController.text.isNotEmpty &
-                    _petAgeController.text.isNotEmpty &
-                    _petPriceController.text.isNotEmpty &
-                    _petDescriptionController.text.isNotEmpty) {
+                    if (_petNameController.text.isNotEmpty &&
+                        _selectedPetType != null &&
+                        _selectedPetBreed != null &&
+                        _petAgeController.text.isNotEmpty &&
+                        _petPriceController.text.isNotEmpty &&
+                        _petDescriptionController.text.isNotEmpty) {
                       String? userName = FirebaseAuth.instance.currentUser?.email;
                       addPetListing(
                         _petNameController.text.trim(),
-                        _petTypeController.text.trim(),
-                        _petBreedController.text.trim(),
+                        _selectedPetType!,
+                        _selectedPetBreed!,
                         int.parse(_petAgeController.text.trim()),
                         double.parse(_petPriceController.text.trim()),
                         _petDescriptionController.text.trim(),
