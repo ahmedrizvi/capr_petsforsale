@@ -18,9 +18,10 @@ class AccountHome extends StatelessWidget {
     return MaterialApp(
       title: 'Pet Listings',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: Colors.black,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: 'Montserrat',
       ),
       home: Scaffold(
         body: Column(
@@ -37,15 +38,12 @@ class AccountHome extends StatelessWidget {
               ),
               child: Stack(
                 children: [
-                  /*
-                  Positioned(
-                    top: 50,
+                  Positioned.fill(
                     child: Image.network(
                       'https://hips.hearstapps.com/goodhousekeeping/assets/17/40/1507316792-havenese.jpg',
                       fit: BoxFit.cover,
                     ),
                   ),
-                  */
                   Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Column(
