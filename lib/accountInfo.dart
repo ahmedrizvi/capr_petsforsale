@@ -16,10 +16,12 @@ class AccountInfo extends StatelessWidget {
     );
   }
 }
+
 class AccountInfoPage extends StatefulWidget {
   @override
   _AccountInfoPageState createState() => _AccountInfoPageState();
 }
+
 class _AccountInfoPageState extends State<AccountInfoPage> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -42,6 +44,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
     super.initState();
     _getUserInfo();
   }
+
   void _getUserInfo() async {
     User? user = _auth.currentUser;
     if (user != null) {
@@ -71,15 +74,23 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
       _lastNameController.text = _lastName ?? '';
       _phoneNumberController.text = _phoneNumber ?? '';
       _addressController.text = _address ?? '';
-
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final appbarcl = const Color(0xFFF8EDEB);
+
     return Scaffold(
+      backgroundColor: appbarcl,
       appBar: AppBar(
-        title: Text('Account Information'),
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: appbarcl,
+        title: const Text(
+          'Account Information',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -101,6 +112,11 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
               TextField(
                 controller: _displayNameController,
                 decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
                   labelText: 'Display Name',
                 ),
               ),
@@ -108,6 +124,11 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
               TextField(
                 controller: _firstNameController,
                 decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
                   labelText: 'First Name',
                 ),
               ),
@@ -115,6 +136,11 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
               TextField(
                 controller: _lastNameController,
                 decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
                   labelText: 'Last Name',
                 ),
               ),
@@ -122,6 +148,11 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
               TextField(
                 controller: _phoneNumberController,
                 decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
                   labelText: 'Phone Number',
                 ),
               ),
@@ -129,6 +160,11 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
               TextField(
                 controller: _addressController,
                 decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
                   labelText: 'Address',
                 ),
               ),
@@ -159,15 +195,22 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                 icon: Icon(Icons.add),
               ),
               SizedBox(height: 24.0),
-              ElevatedButton(
-                child: Text('Go Back'),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AccountHome()));
-                },
-              ),
+              SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.white),
+                  child: const Text(
+                    'Go Back',
+                    style: TextStyle(fontSize: 20, color: Colors.blueAccent),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AccountHome()));
+                  },
+                ),
+              )
             ],
-
           ),
         ),
       ),
