@@ -18,7 +18,7 @@ class AccountHome extends StatelessWidget {
     return MaterialApp(
       title: 'Pet Listings',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.tealAccent,
+        scaffoldBackgroundColor: Colors.black,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
@@ -29,7 +29,7 @@ class AccountHome extends StatelessWidget {
             Container(
               height: MediaQuery.of(context).size.height * 0.3,
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.black,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(30),
                   bottomRight: Radius.circular(30),
@@ -90,20 +90,26 @@ class AccountHome extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                'Browse Pet Listings',
+                'Browse Listings',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white
                 ),
               ),
             ),
             SizedBox(height: 16.0),
             Expanded(
               child: ListView(
+                padding: const EdgeInsets.all(20),
                 children: [
                   ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text('Account Info'),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 2),
+                        borderRadius: BorderRadius.circular(20),),
+                    tileColor: Colors.blueAccent,
+                    leading: Icon(Icons.person, color: Colors.white,),
+                    title: Text('Account Info', style: TextStyle(fontSize:20, color: Colors.white),),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -111,9 +117,14 @@ class AccountHome extends StatelessWidget {
                               builder: (context) => AccountInfo()));
                     },
                   ),
+                  SizedBox(height: 16.0),
                   ListTile(
-                    leading: Icon(Icons.add),
-                    title: Text('Create Listing'),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 2),
+                        borderRadius: BorderRadius.circular(20),),
+                    tileColor: Colors.blueAccent,
+                    leading: Icon(Icons.add, color: Colors.white,),
+                    title: Text('Create Listing', style: TextStyle(fontSize:20, color: Colors.white),),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -121,9 +132,14 @@ class AccountHome extends StatelessWidget {
                               builder: (context) => CreateListing()));
                     },
                   ),
+                  SizedBox(height: 16.0),
                   ListTile(
-                    leading: Icon(Icons.pets),
-                    title: Text('My Pet Listings'),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 2),
+                        borderRadius: BorderRadius.circular(20),),
+                    tileColor: Colors.blueAccent,
+                    leading: Icon(Icons.pets, color: Colors.white,),
+                    title: Text('My Pet Listings', style: TextStyle(fontSize:20, color: Colors.white),),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -131,9 +147,14 @@ class AccountHome extends StatelessWidget {
                               builder: (context) => myListings()));
                     },
                   ),
+                  SizedBox(height: 16.0),
                   ListTile(
-                    leading: Icon(Icons.search),
-                    title: Text('View Other Pet Listings'),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 2),
+                        borderRadius: BorderRadius.circular(20),),
+                    tileColor: Colors.blueAccent,
+                    leading: Icon(Icons.search, color: Colors.white,),
+                    title: Text('View Other Pet Listings', style: TextStyle(fontSize:20, color: Colors.white),),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -141,9 +162,14 @@ class AccountHome extends StatelessWidget {
                               builder: (context) => viewListings()));
                     },
                   ),
+                  SizedBox(height: 16.0),
                   ListTile(
-                    leading: Icon(Icons.message),
-                    title: Text('View Messages'),
+                    tileColor: Colors.blueAccent,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 2),
+                        borderRadius: BorderRadius.circular(20),),
+                    leading: Icon(Icons.message, color: Colors.white,),
+                    title: Text('View Messages', style: TextStyle(fontSize:20, color: Colors.white),),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -151,9 +177,14 @@ class AccountHome extends StatelessWidget {
                               builder: (context) => ContactsScreen()));
                     },
                   ),
+                  SizedBox(height: 16.0),
                   ListTile(
+                    tileColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 2),
+                        borderRadius: BorderRadius.circular(20),),
                     leading: Icon(Icons.logout),
-                    title: Text('Logout'),
+                    title: Text('Logout', style: TextStyle(fontSize:20, color: Colors.black),),
                     onTap: () {
                       showDialog(
                           context: context,
