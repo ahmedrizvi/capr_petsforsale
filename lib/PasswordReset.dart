@@ -8,6 +8,7 @@ class Forget extends StatelessWidget {
   const Forget({Key? key}) : super(key: key);
 
   static const String _title = 'Canis Orbis';
+  final appbarcl = const Color(0xFFF8EDEB);
 
   @override
   Widget build(BuildContext context) {
@@ -15,17 +16,17 @@ class Forget extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: _title,
       home: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: appbarcl,
         appBar: AppBar(
             elevation: 0,
             centerTitle: true,
-            backgroundColor: Colors.black,
+            backgroundColor: appbarcl,
             title: const Text(
               "Canis",
               style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'Palatino'),
+                  fontFamily: 'Montserrat'),
             )),
         body: const MyStatefulWidget(),
       ),
@@ -43,6 +44,7 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   bool _nameError = false;
   final textbg = const Color(0xFF3D3D3D);
+  final appbarcl = const Color(0xFFF8EDEB);
 
   TextEditingController nameController = TextEditingController();
 
@@ -91,20 +93,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               alignment: Alignment.center,
               child: const Text(
                   'Enter your email and we will send you a password reset link',
-                  style: TextStyle(color: Colors.grey, fontSize: 18))),
+                  style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'))),
           Container(
             padding: const EdgeInsets.all(10),
             child: TextField(
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.black),
               controller: nameController,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: textbg,
+                fillColor: Colors.white,
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.black)),
                 labelText: 'Enter Your Email Address',
-                labelStyle: const TextStyle(color: Colors.white70),
+                labelStyle: const TextStyle(color: Colors.black),
                 errorText: _nameError ? 'Please enter your email' : null,
               ),
             ),
@@ -114,11 +116,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               height: 300,
               padding: const EdgeInsets.fromLTRB(50, 230, 50, 10),
               child: MaterialButton(
-                  color: Colors.blueAccent,
+                  color: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   child: const Text('Reset Password',
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                      style: TextStyle(fontSize: 20, color: Colors.blueAccent)),
                   onPressed: () async {
                     setState(() {
                       nameController.text.isEmpty

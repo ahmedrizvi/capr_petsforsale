@@ -8,6 +8,7 @@ void main() => runApp(const Register());
 class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);
 
+  final appbarcl = const Color(0xFFF8EDEB);
   static const String _title = 'Canis Orbis';
 
   @override
@@ -16,17 +17,17 @@ class Register extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: _title,
       home: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: appbarcl,
         appBar: AppBar(
-            backgroundColor: Colors.black,
+            backgroundColor: appbarcl,
             elevation: 0,
             centerTitle: true,
             title: const Text(
               "Canis",
               style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'Palatino'),
+                  fontFamily: 'Montserrat'),
             )),
         body: MyStatefulWidget(),
       ),
@@ -43,6 +44,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final textbg = const Color(0xFF3D3D3D);
+  final appbarcl = const Color(0xFFF8EDEB);
 
   bool _FnameError = false,
       _LnameError = false,
@@ -99,22 +101,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                 alignment: Alignment.center,
                 child: const Text('Sign up to buy, sell or view pets!',
-                    style: TextStyle(color: Colors.grey, fontSize: 18))),
+                    style: TextStyle(color: Colors.black, fontSize: 18))),
             Row(children: [
               const SizedBox(width: 10),
               Expanded(
                 child: TextField(
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.black),
                   controller: _FnameController,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: textbg,
+                    fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.black),
                     ),
                     labelText: 'First Name',
-                    labelStyle: const TextStyle(color: Colors.white70),
+                    labelStyle: const TextStyle(color: Colors.black),
                     errorText:
                         _FnameError ? 'Please Enter Your First Name' : null,
                   ),
@@ -125,17 +126,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
               Expanded(
                 child: TextField(
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.black),
                   controller: _LnameController,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: textbg,
+                    fillColor:  Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.black),
                     ),
                     labelText: 'Last Name',
-                    labelStyle: const TextStyle(color: Colors.white70),
+                    labelStyle: const TextStyle(color: Colors.black),
                     errorText:
                         _LnameError ? 'Please Enter Your Last Name' : null,
                   ),
@@ -151,17 +151,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 onTap: () {
                   _usernameError = false;
                 },
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 controller: userNameController,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: textbg,
+                  fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.white),
                   ),
                   labelText: 'Username',
-                  labelStyle: const TextStyle(color: Colors.white70),
+                  labelStyle: const TextStyle(color: Colors.black),
                   errorText:
                   _usernameError ? 'Please Enter Your Username' : null,
                 ),
@@ -173,17 +173,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 onTap: () {
                   _emailError = false;
                 },
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 controller: emailController,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: textbg,
+                  fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   labelText: 'Email Address',
-                  labelStyle: const TextStyle(color: Colors.white70),
+                  labelStyle: const TextStyle(color: Colors.black),
                   errorText:
                       _emailError ? 'Please Enter Your Email Address' : null,
                 ),
@@ -194,12 +193,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: TextField(
                 onChanged: (passwordController) =>
                     onPasswordChanged(passwordController),
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 controller: passwordController,
                 obscureText: !_isvisible,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: textbg,
+                  fillColor: Colors.white,
                   suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -209,7 +208,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       icon: _isvisible
                           ? Icon(
                               Icons.visibility,
-                              color: Colors.white,
+                              color: Colors.black,
                             )
                           : Icon(
                               Icons.visibility_off,
@@ -217,10 +216,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             )),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   labelText: 'Password',
-                  labelStyle: const TextStyle(color: Colors.white70),
+                  labelStyle: const TextStyle(color: Colors.black),
                   errorText: _passError ? 'Please Enter Your Password' : null,
                 ),
               ),
@@ -235,7 +233,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
+                    border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
@@ -247,7 +245,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
                 const Text(
                   "Contains at least 8 characters",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                 ),
               ],
             ),
@@ -261,7 +259,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
+                    border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
@@ -273,7 +271,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
                 const Text(
                   "Contains at least 1 number",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                 ),
               ],
             ),
@@ -287,7 +285,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
+                    border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
@@ -299,7 +297,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
                 const Text(
                   "Contains at least 1 special character",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                 ),
               ],
             ),
@@ -313,7 +311,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
+                    border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
@@ -325,7 +323,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
                 const Text(
                   "Contains at least 1 capital letter",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                 ),
               ],
             ),
@@ -335,12 +333,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 obscureText: !_isvisible2,
                 controller: confPasswordController,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: textbg,
+                  fillColor: Colors.white,
                   suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -350,7 +348,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       icon: _isvisible2
                           ? Icon(
                               Icons.visibility,
-                              color: Colors.white,
+                              color: Colors.black,
                             )
                           : Icon(
                               Icons.visibility_off,
@@ -361,7 +359,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     borderSide: const BorderSide(color: Colors.black),
                   ),
                   labelText: 'Confirm Password',
-                  labelStyle: const TextStyle(color: Colors.white70),
+                  labelStyle: const TextStyle(color: Colors.black),
                   errorText: _CpassError ? _CpassMessage : null,
                 ),
               ),
@@ -372,17 +370,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 onTap: () {
                   _addressError = false;
                 },
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 controller: addressController,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: textbg,
+                  fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   labelText: 'Address',
-                  labelStyle: const TextStyle(color: Colors.white70),
+                  labelStyle: const TextStyle(color: Colors.black),
                   errorText:
                   _addressError ? 'Please Enter Your Physical Address' : null,
                 ),
@@ -394,17 +391,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 onTap: () {
                   _phoneNumberError = false;
                 },
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 controller: phoneNumberController,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: textbg,
+                  fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   labelText: 'Phone number',
-                  labelStyle: const TextStyle(color: Colors.white70),
+                  labelStyle: const TextStyle(color: Colors.black),
                   errorText:
                   _phoneNumberError ? 'Please Enter Your Phone Number' : null,
                 ),
@@ -414,8 +410,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 height: 250,
                 padding: const EdgeInsets.fromLTRB(40, 150, 40, 40),
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white
+                  ),
                   child: const Text('Create',
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                      style: TextStyle(fontSize: 20, color: Colors.blueAccent)),
                   onPressed: () {
                     setState(() {
                       _CpassMessage = 'Please Enter Your Conformation Password';

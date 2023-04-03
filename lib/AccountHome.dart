@@ -19,7 +19,6 @@ class AccountHome extends StatelessWidget {
       title: 'Pet Listings',
       theme: ThemeData(
         primaryColor: Color(0xFF63B4B8),
-        accentColor: Color(0xFFF18F01),
         scaffoldBackgroundColor: Color(0xFFF8EDEB),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: 'Montserrat',
