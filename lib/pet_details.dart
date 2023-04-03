@@ -31,26 +31,30 @@ class _PetDetailsPageState extends State<PetDetailsPage> {
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 24),
               Text(
                 "Type: ${widget.pet["petType:"]}",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 24),
               ),
               Text(
                 "Breed: ${widget.pet["petBreed:"]}",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 22),
               ),
               Text(
                 "Age: ${widget.pet["petAge:"]}",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 20),
               ),
               Text(
                 "Price: ${widget.pet["petPrice:"]}",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                "Listed By: ${widget.pet["listingOwnerEmail:"]}",
+                style: TextStyle(fontSize: 18),
               ),
               Text(
                 "Description: ${widget.pet["petDescription:"]}",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 18),
               ),
             ],
           ),

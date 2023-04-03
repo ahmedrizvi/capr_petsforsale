@@ -85,7 +85,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                     .collection('contacts')
                     .where('email', isEqualTo: userId?.email)
                     .snapshots(),
-                (QuerySnapshot query1, QuerySnapshot query2) {
+                    (QuerySnapshot query1, QuerySnapshot query2) {
                   return [query1, query2];
                 },
               ),

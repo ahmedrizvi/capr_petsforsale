@@ -19,6 +19,7 @@ class myListings extends StatelessWidget {
     return MaterialApp(
       title: 'Pet Marketplace',
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.tealAccent,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

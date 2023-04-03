@@ -17,6 +17,7 @@ class viewListings extends StatelessWidget {
     return MaterialApp(
       title: 'Pet Marketplace',
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.tealAccent,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
@@ -147,6 +148,10 @@ class _ListingsPageState extends State<ListingsPage> {
                                     ),
                                     Text(
                                       "Price: ${listing["petPrice:"]}",
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    Text(
+                                      "Listed By: ${listing["listingOwnerEmail:"]}",
                                       style: TextStyle(fontSize: 16),
                                     ),
                                     Text(
