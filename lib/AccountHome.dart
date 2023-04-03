@@ -12,12 +12,15 @@ void main() {
 }
 
 class AccountHome extends StatelessWidget {
+  final textbg = const Color(0xFF3D3D3D);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Pet Listings',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.tealAccent,
+        scaffoldBackgroundColor: Colors.black,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
@@ -60,11 +63,7 @@ class AccountHome extends StatelessWidget {
                                   user?.displayName ?? user?.email ?? 'Unknown';
                               return Text(
                                 'Welcome, $userName',
-                                style: TextStyle(
-                                  fontSize: 30.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
+                                style: TextStyle(fontSize: 30, color: Colors.black, fontWeight: FontWeight.bold, fontFamily: 'Palatino'),
                               );
                             } else {
                               return CircularProgressIndicator();
@@ -72,12 +71,8 @@ class AccountHome extends StatelessWidget {
                           },
                         ),
                         Text(
-                          'Find Your New Pet Companion',
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                          'Find Your New Companien',
+                          style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.bold, fontFamily: 'Palatino'),
                         ),
                       ],
                     ),
@@ -89,20 +84,26 @@ class AccountHome extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                'Browse Pet Listings',
+                'Browse Listings',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white
                 ),
               ),
             ),
             SizedBox(height: 16.0),
             Expanded(
               child: ListView(
+                padding: const EdgeInsets.all(20),
                 children: [
                   ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text('Account Info'),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 2),
+                        borderRadius: BorderRadius.circular(20),),
+                    tileColor: Colors.blueAccent,
+                    leading: Icon(Icons.person, color: Colors.white,),
+                    title: Text('Account Info', style: TextStyle(fontSize:20, color: Colors.white),),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -110,9 +111,14 @@ class AccountHome extends StatelessWidget {
                               builder: (context) => AccountInfo()));
                     },
                   ),
+                  SizedBox(height: 16.0),
                   ListTile(
-                    leading: Icon(Icons.add),
-                    title: Text('Create Listing'),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 2),
+                        borderRadius: BorderRadius.circular(20),),
+                    tileColor: Colors.blueAccent,
+                    leading: Icon(Icons.add, color: Colors.white,),
+                    title: Text('Create Listing', style: TextStyle(fontSize:20, color: Colors.white),),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -120,9 +126,14 @@ class AccountHome extends StatelessWidget {
                               builder: (context) => CreateListing()));
                     },
                   ),
+                  SizedBox(height: 16.0),
                   ListTile(
-                    leading: Icon(Icons.pets),
-                    title: Text('My Pet Listings'),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 2),
+                        borderRadius: BorderRadius.circular(20),),
+                    tileColor: Colors.blueAccent,
+                    leading: Icon(Icons.pets, color: Colors.white,),
+                    title: Text('My Pet Listings', style: TextStyle(fontSize:20, color: Colors.white),),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -130,9 +141,14 @@ class AccountHome extends StatelessWidget {
                               builder: (context) => myListings()));
                     },
                   ),
+                  SizedBox(height: 16.0),
                   ListTile(
-                    leading: Icon(Icons.search),
-                    title: Text('View Other Pet Listings'),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 2),
+                        borderRadius: BorderRadius.circular(20),),
+                    tileColor: Colors.blueAccent,
+                    leading: Icon(Icons.search, color: Colors.white,),
+                    title: Text('View Other Pet Listings', style: TextStyle(fontSize:20, color: Colors.white),),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -140,9 +156,10 @@ class AccountHome extends StatelessWidget {
                               builder: (context) => viewListings()));
                     },
                   ),
+                  SizedBox(height: 50.0),
                   ListTile(
-                    leading: Icon(Icons.message),
-                    title: Text('View Messages'),
+                    leading: Icon(Icons.logout),
+                    title: Text('Logout'),
                     onTap: () {
                       Navigator.push(
                           context,
