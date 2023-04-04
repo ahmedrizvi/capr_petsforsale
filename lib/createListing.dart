@@ -14,6 +14,7 @@ class CreateListing extends StatelessWidget {
   const CreateListing({Key? key}) : super(key: key);
 
   static const String _title = 'Canis Orbis';
+  final appbarcl = const Color(0xFFF8EDEB);
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +22,17 @@ class CreateListing extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: _title,
       home: Scaffold(
-        backgroundColor: Colors.greenAccent,
+        backgroundColor:appbarcl,
         appBar: AppBar(
-            backgroundColor: Colors.black,
+            backgroundColor: appbarcl,
             elevation: 0,
             centerTitle: true,
             title: const Text(
               "Canis",
               style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'Palatino'),
+                  fontFamily: 'Montserrat'),
             )),
         body: MyStatefulWidget(),
       ),
@@ -127,47 +128,45 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         child: ListView(
           children: <Widget>[
             Container(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                 alignment: Alignment.center,
                 child: const Text('Create Your Pet Listing!',
-                    style: TextStyle(color: Colors.grey, fontSize: 18))),
+                    style: TextStyle(color: Colors.black, fontSize: 18))),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 TextField(
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.black),
                   controller: _petNameController,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: textbg,
+                    fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.black),
                     ),
                     labelText: 'Pet Name',
-                    labelStyle: const TextStyle(color: Colors.white70),
+                    labelStyle: const TextStyle(color: Colors.black),
                     errorText: _pNameError ? 'Please Enter Your Pet Name' : null,
                   ),
                 ),
                 SizedBox(height: 10),
                 DropdownButtonFormField<String>(
-                  dropdownColor: textbg,
+                  dropdownColor: Colors.white,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: textbg,
+                    fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.black),
                     ),
                     labelText: 'Pet Type',
-                    labelStyle: const TextStyle(color: Colors.white70),
+                    labelStyle: const TextStyle(color: Colors.black),
                     errorText: _pTypeError ? 'Please Select Your Pet Type' : null,
                   ),
                   value: _selectedPetType,
                   items: petTypes.map((String petType) {
                     return DropdownMenuItem<String>(
                       value: petType,
-                      child: Text(petType, style: const TextStyle(color: Colors.white)),
+                      child: Text(petType, style: const TextStyle(color: Colors.black)),
                     );
                   }).toList(),
                   onChanged: (String? newValue) {
@@ -181,23 +180,22 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
                 SizedBox(height: 10),
                 DropdownButtonFormField<String>(
-                  dropdownColor: textbg,
+                  dropdownColor: Colors.white,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: textbg,
+                    fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.black),
                     ),
                     labelText: 'Pet Breed',
-                    labelStyle: const TextStyle(color: Colors.white70),
+                    labelStyle: const TextStyle(color: Colors.black),
                     errorText: _pBreedError ? 'Please Select Your Pet Breed' : null,
                   ),
                   value: _selectedPetBreed,
                   items: _petBreeds.map((String petBreed) {
                     return DropdownMenuItem<String>(
                       value: petBreed,
-                      child: Text(petBreed, style: const TextStyle(color: Colors.white)),
+                      child: Text(petBreed, style: const TextStyle(color: Colors.black)),
                     );
                   }).toList(),
                   onChanged: (String? newValue) {
@@ -213,44 +211,42 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
 
             Container(
-              padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
               child: TextField(
                 onTap: () {
                   _pAgeError = false;
                 },
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 controller: _petAgeController,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: textbg,
+                  fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   labelText: 'Pet Age',
-                  labelStyle: const TextStyle(color: Colors.white70),
+                  labelStyle: const TextStyle(color: Colors.black),
                   errorText:
                       _pAgeError ? 'Please Enter Your Email Address' : null,
                 ),
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
               child: TextField(
                 onTap: () {
                   _pPriceError = false;
                 },
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 controller: _petPriceController,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: textbg,
+                  fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   labelText: 'Price',
-                  labelStyle: const TextStyle(color: Colors.white70),
+                  labelStyle: const TextStyle(color: Colors.black),
                   errorText:
                       _pPriceError ? 'Please Enter Your Pet Price' : null,
                 ),
@@ -278,22 +274,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
               child: TextField(
                 onTap: () {
                   _pDescriptionError = false;
                 },
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 controller: _petDescriptionController,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: textbg,
+                  fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.black),
                   ),
                   labelText: 'Pet Description',
-                  labelStyle: const TextStyle(color: Colors.white70),
+                  labelStyle: const TextStyle(color: Colors.black),
                   errorText: _pDescriptionError
                       ? 'Please Enter Your Pet Description'
                       : null,
@@ -301,11 +296,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-                height: 150,
+                height: 120,
                 padding: const EdgeInsets.fromLTRB(40, 30, 40, 40),
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0),),),
                   child: const Text('Create',
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                      style: TextStyle(fontSize: 20, color: Colors.blueAccent)),
                   onPressed: () async {
                     var storage = FirebaseStorage.instance
                         .ref()

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'viewContacts.dart';
 
 class ChatScreen extends StatefulWidget {
   final String chatId;
@@ -42,9 +43,24 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appbarcl = const Color(0xFFF8EDEB);
+
     return Scaffold(
+      backgroundColor: appbarcl,
       appBar: AppBar(
-        title: Text(widget.title),
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: appbarcl,
+        title: Text(widget.title,
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ContactsScreen())),
+        ),
       ),
       body: Column(
         children: [
@@ -129,6 +145,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: TextField(
                     controller: _messageController,
                     decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
                       hintText: 'Type a message',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),

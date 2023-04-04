@@ -19,9 +19,10 @@ class myListings extends StatelessWidget {
     return MaterialApp(
       title: 'Pet Marketplace',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.tealAccent,
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0xFF63B4B8),
+        scaffoldBackgroundColor: Color(0xFFF8EDEB),
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: 'Montserrat',
       ),
       home: ListingsPage(),
     );
@@ -33,14 +34,22 @@ class ListingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appbarcl = const Color(0xFFF8EDEB);
     final firestore = FirebaseFirestore.instance;
     final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
+      backgroundColor: appbarcl,
       appBar: AppBar(
-        title: Text("Your Pet Listings"),
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: appbarcl,
+        title: const Text(
+          'Your Listings',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.push(
               context, MaterialPageRoute(builder: (context) => AccountHome())),
         ),
@@ -65,9 +74,11 @@ class ListingsPage extends StatelessWidget {
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
+
               final listing = snapshot.data!.docs[index];
               final imageUrl = listing["imageUrl:"];
               return Card(
+                
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: InkWell(
                   onTap: () {
@@ -136,7 +147,8 @@ class ListingsPage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => EditListingPage(listing: listing),
+                                    builder: (context) =>
+                                        EditListingPage(listing: listing),
                                   ),
                                 );
                               },

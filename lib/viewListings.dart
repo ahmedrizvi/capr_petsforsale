@@ -17,9 +17,10 @@ class viewListings extends StatelessWidget {
     return MaterialApp(
       title: 'Pet Marketplace',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.tealAccent,
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0xFF63B4B8),
+        scaffoldBackgroundColor: Color(0xFFF8EDEB),
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: 'Montserrat',
       ),
       home: ListingsPage(),
     );
@@ -34,6 +35,7 @@ class ListingsPage extends StatefulWidget {
 class _ListingsPageState extends State<ListingsPage> {
   String? _selectedPetType;
   String? _selectedPetBreed;
+  final appbarcl = const Color(0xFFF8EDEB);
 
   final Map<String, List<String>> petBreeds = {
     'Amphibians': ['Frog', 'Salamander', 'Caecilian'],
@@ -51,9 +53,15 @@ class _ListingsPageState extends State<ListingsPage> {
     final firestore = FirebaseFirestore.instance;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Listings For Sale Near You"),
+        backgroundColor: appbarcl,
+            elevation: 0,
+            centerTitle: true,
+        title: const Text(
+          'Listings For Sale Near You',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.black,),
           onPressed: () => Navigator.push(
               context, MaterialPageRoute(builder: (context) => AccountHome())),
         ),
@@ -105,6 +113,7 @@ class _ListingsPageState extends State<ListingsPage> {
                     final listing = filteredListings[index];
                     final imageUrl = listing["imageUrl:"];
                     return Card(
+                      
                       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                       child: InkWell(
                         onTap: () {
