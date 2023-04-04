@@ -54,14 +54,17 @@ class _ListingsPageState extends State<ListingsPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appbarcl,
-            elevation: 0,
-            centerTitle: true,
+        elevation: 0,
+        centerTitle: true,
         title: const Text(
           'Listings For Sale Near You',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black,),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
           onPressed: () => Navigator.push(
               context, MaterialPageRoute(builder: (context) => AccountHome())),
         ),
@@ -113,7 +116,6 @@ class _ListingsPageState extends State<ListingsPage> {
                     final listing = filteredListings[index];
                     final imageUrl = listing["imageUrl:"];
                     return Card(
-                      
                       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                       child: InkWell(
                         onTap: () {
@@ -127,61 +129,106 @@ class _ListingsPageState extends State<ListingsPage> {
                         },
                         child: Padding(
                           padding: EdgeInsets.all(16),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                flex: 3,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      listing["petName:"],
-                                      style: TextStyle(
-                                        fontSize: 20,
+                          child: Column(children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(listing["petName:"],
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: 25,
+                                        fontFamily: 'Montserrat')),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: CachedNetworkImage(
+                                    imageUrl: imageUrl,
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Type: ${listing["petType:"]}",
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                            fontFamily: 'Montserrat'),
                                       ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      "Type: ${listing["petType:"]}",
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Text(
-                                      "Breed: ${listing["petBreed:"]}",
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Text(
-                                      "Age: ${listing["petAge:"]}",
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Text(
-                                      "Price: ${listing["petPrice:"]}",
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Text(
-                                      "Listed By: ${listing["listingOwnerEmail:"]}",
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Text(
-                                      "Description: ${listing["petDescription:"]}",
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ],
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        "Breed: ${listing["petBreed:"]}",
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                            fontFamily: 'Montserrat'),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        "Age: ${listing["petAge:"]} year",
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                            fontFamily: 'Montserrat'),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        "Price: \$${listing["petPrice:"]}",
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                            fontFamily: 'Montserrat'),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        "Listed By: ${listing["listingOwnerEmail:"]}",
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                            fontFamily: 'Montserrat'),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        "Description: ${listing["petDescription:"]}",
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                            fontFamily: 'Montserrat'),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: CachedNetworkImage(
-                                  imageUrl: imageUrl,
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
+                          ]),
                         ),
                       ),
                     );

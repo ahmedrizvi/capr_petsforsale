@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'viewListings.dart';
 
 class PetDetailsPage extends StatefulWidget {
   final DocumentSnapshot pet;
@@ -12,11 +13,22 @@ class PetDetailsPage extends StatefulWidget {
 }
 
 class _PetDetailsPageState extends State<PetDetailsPage> {
+  final appbarcl = const Color(0xFFF8EDEB);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.pet["petName:"]),
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: appbarcl,
+        title: Text(widget.pet["petName:"],
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => viewListings())),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -34,27 +46,32 @@ class _PetDetailsPageState extends State<PetDetailsPage> {
               SizedBox(height: 24),
               Text(
                 "Type: ${widget.pet["petType:"]}",
-                style: TextStyle(fontSize: 24),
+                style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
               ),
+               SizedBox(height: 10),
               Text(
                 "Breed: ${widget.pet["petBreed:"]}",
-                style: TextStyle(fontSize: 22),
+               style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
               ),
+              SizedBox(height: 10),
               Text(
                 "Age: ${widget.pet["petAge:"]}",
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
               ),
+              SizedBox(height: 10),
               Text(
                 "Price: ${widget.pet["petPrice:"]}",
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
               ),
+              SizedBox(height: 10),
               Text(
                 "Listed By: ${widget.pet["listingOwnerEmail:"]}",
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
               ),
+              SizedBox(height: 10),
               Text(
                 "Description: ${widget.pet["petDescription:"]}",
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
               ),
             ],
           ),

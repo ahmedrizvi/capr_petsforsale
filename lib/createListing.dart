@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'AccountHome.dart';
 
 void main() {
   runApp(CreateListing());
@@ -22,17 +23,29 @@ class CreateListing extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: _title,
       home: Scaffold(
-        backgroundColor:appbarcl,
+        backgroundColor: appbarcl,
         appBar: AppBar(
             backgroundColor: appbarcl,
             elevation: 0,
             centerTitle: true,
             title: const Text(
-              "Canis",
+              "Create Listing",
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Montserrat'),
+            ),
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              ),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AccountHome(),
+                ),
+              ),
             )),
         body: MyStatefulWidget(),
       ),
@@ -130,8 +143,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                 alignment: Alignment.center,
-                child: const Text('Create Your Pet Listing!',
-                    style: TextStyle(color: Colors.black, fontSize: 18))),
+               ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -146,7 +158,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     ),
                     labelText: 'Pet Name',
                     labelStyle: const TextStyle(color: Colors.black),
-                    errorText: _pNameError ? 'Please Enter Your Pet Name' : null,
+                    errorText:
+                        _pNameError ? 'Please Enter Your Pet Name' : null,
                   ),
                 ),
                 SizedBox(height: 10),
@@ -160,13 +173,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     ),
                     labelText: 'Pet Type',
                     labelStyle: const TextStyle(color: Colors.black),
-                    errorText: _pTypeError ? 'Please Select Your Pet Type' : null,
+                    errorText:
+                        _pTypeError ? 'Please Select Your Pet Type' : null,
                   ),
                   value: _selectedPetType,
                   items: petTypes.map((String petType) {
                     return DropdownMenuItem<String>(
                       value: petType,
-                      child: Text(petType, style: const TextStyle(color: Colors.black)),
+                      child: Text(petType,
+                          style: const TextStyle(color: Colors.black)),
                     );
                   }).toList(),
                   onChanged: (String? newValue) {
@@ -189,13 +204,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     ),
                     labelText: 'Pet Breed',
                     labelStyle: const TextStyle(color: Colors.black),
-                    errorText: _pBreedError ? 'Please Select Your Pet Breed' : null,
+                    errorText:
+                        _pBreedError ? 'Please Select Your Pet Breed' : null,
                   ),
                   value: _selectedPetBreed,
                   items: _petBreeds.map((String petBreed) {
                     return DropdownMenuItem<String>(
                       value: petBreed,
-                      child: Text(petBreed, style: const TextStyle(color: Colors.black)),
+                      child: Text(petBreed,
+                          style: const TextStyle(color: Colors.black)),
                     );
                   }).toList(),
                   onChanged: (String? newValue) {
@@ -209,7 +226,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 SizedBox(height: 10),
               ],
             ),
-
             Container(
               padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
               child: TextField(
@@ -299,8 +315,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 height: 120,
                 padding: const EdgeInsets.fromLTRB(40, 30, 40, 40),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0),),),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
                   child: const Text('Create',
                       style: TextStyle(fontSize: 20, color: Colors.blueAccent)),
                   onPressed: () async {
@@ -341,7 +361,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         _petAgeController.text.isNotEmpty &&
                         _petPriceController.text.isNotEmpty &&
                         _petDescriptionController.text.isNotEmpty) {
-                      String? userName = FirebaseAuth.instance.currentUser?.email;
+                      String? userName =
+                          FirebaseAuth.instance.currentUser?.email;
                       addPetListing(
                         _petNameController.text.trim(),
                         _selectedPetType!,
@@ -353,8 +374,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         url,
                       );
                       openDialog();
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => AccountHome()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AccountHome()));
                     }
                   },
                 )),

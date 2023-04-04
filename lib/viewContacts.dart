@@ -69,7 +69,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
   @override
   Widget build(BuildContext context) {
-     final appbarcl = const Color(0xFFF8EDEB);
+    final appbarcl = const Color(0xFFF8EDEB);
 
     return Scaffold(
       backgroundColor: appbarcl,
@@ -79,9 +79,13 @@ class _ContactsScreenState extends State<ContactsScreen> {
         backgroundColor: appbarcl,
         title: const Text(
           'Contact',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
-          leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black,),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
           onPressed: () => Navigator.push(
               context, MaterialPageRoute(builder: (context) => AccountHome())),
         ),
@@ -99,7 +103,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                     .collection('contacts')
                     .where('email', isEqualTo: userId?.email)
                     .snapshots(),
-                    (QuerySnapshot query1, QuerySnapshot query2) {
+                (QuerySnapshot query1, QuerySnapshot query2) {
                   return [query1, query2];
                 },
               ),
@@ -124,11 +128,20 @@ class _ContactsScreenState extends State<ContactsScreen> {
                         final String name = contact['name'];
                         final String email = contact['email'];
                         final String chatId = contact['id'];
-
                         return ListTile(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 2),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           tileColor: Colors.white,
-                          title: Text(name, style: TextStyle(color: Colors.black),),
-                          subtitle: Text(email,  style: TextStyle(color: Colors.black),),
+                          title: Text(
+                            name,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          subtitle: Text(
+                            email,
+                            style: TextStyle(color: Colors.black),
+                          ),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -155,7 +168,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        ),
+                      ),
                       hintText: 'Enter email address',
                       filled: true,
                       fillColor: Colors.white,
@@ -164,10 +177,17 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 ),
                 SizedBox(width: 10.0),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0),),),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
                   onPressed: _addContact,
-                  child: Text('Add', style: TextStyle(color: Colors.blueAccent),),
+                  child: Text(
+                    'Add',
+                    style: TextStyle(color: Colors.blueAccent),
+                  ),
                 ),
               ],
             ),

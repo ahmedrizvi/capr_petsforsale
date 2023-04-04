@@ -89,44 +89,15 @@ class ListingsPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(listing["petName:"],style: const TextStyle(fontWeight:FontWeight.bold ,color: Colors.black, fontSize: 25, fontFamily: 'Montserrat')),
+                            ],
+                          ),
+                          SizedBox(height: 5,),
+                        Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              flex: 3,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    listing["petName:"],
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    "Type: ${listing["petType:"]}",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    "Breed: ${listing["petBreed:"]}",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    "Age: ${listing["petAge:"]}",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    "Price: ${listing["petPrice:"]}",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    "Description: ${listing["petDescription:"]}",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ),
                             Expanded(
                               flex: 2,
                               child: CachedNetworkImage(
@@ -137,6 +108,35 @@ class ListingsPage extends StatelessWidget {
                                     Icon(Icons.error),
                               ),
                             ),
+                            SizedBox(width: 20,),
+                            Expanded(
+                              flex: 3,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Breed: ${listing["petBreed:"]}",
+                                    style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    "Age: ${listing["petAge:"]} year",
+                                    style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    "Price: \$${listing["petPrice:"]}",
+                                    style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    "Description: ${listing["petDescription:"]}",
+                                    style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            
                           ],
                         ),
                         Row(
