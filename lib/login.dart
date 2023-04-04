@@ -9,7 +9,7 @@ void main() => runApp(const Login());
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
-  static const String _title = 'Canis';
+  static const String _title = 'Pet Store';
   final appbarcl = const Color(0xFFF8EDEB);
 
   @override
@@ -24,7 +24,7 @@ class Login extends StatelessWidget {
             elevation: 0,
             centerTitle: true,
             title: const Text(
-              "Canis",
+              "Pet Store",
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             )),
@@ -126,7 +126,7 @@ class _MyStatefulWidgetState extends State<login> {
               },
             ),
             Container(
-                height: 400,
+             //   height: 400,
                 padding: const EdgeInsets.fromLTRB(50, 340, 50, 10),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(primary: Colors.white,
