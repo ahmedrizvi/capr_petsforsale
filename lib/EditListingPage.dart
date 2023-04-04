@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'myListings.dart';
 
 class EditListingPage extends StatefulWidget {
   final DocumentSnapshot listing;
@@ -59,10 +60,20 @@ class _EditListingPageState extends State<EditListingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final appbarcl = const Color(0xFFF8EDEB); 
     return Scaffold(
+      backgroundColor: appbarcl,
         appBar: AppBar(
-          title: Text('Edit Pet Listing'),
-        ),
+          backgroundColor: appbarcl,
+          elevation: 0,
+          centerTitle: true,
+          title: const Text(
+          'Edit Listing',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+          leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black,),
+          onPressed: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => myListings(),),),),),
         body: SingleChildScrollView(
         child: Form(
         key: _formKey,
@@ -72,43 +83,82 @@ class _EditListingPageState extends State<EditListingPage> {
     children: [
     TextFormField(
     controller: _petNameController,
-    decoration: InputDecoration(labelText: 'Pet Name'),
+    decoration: InputDecoration(labelText: 'Pet Name',
+    border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,),
     validator: (value) =>
     value!.isEmpty ? 'Please enter pet name' : null,
     ),
+    SizedBox(height: 24.0),
     TextFormField(
     controller: _petTypeController,
-    decoration: InputDecoration(labelText: 'Pet Type'),
+    decoration: InputDecoration(labelText: 'Pet Type',
+    border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,),
     validator: (value) =>
     value!.isEmpty ? 'Please enter pet type' : null,
     ),
+    SizedBox(height: 24.0),
     TextFormField(
     controller: _petBreedController,
-    decoration: InputDecoration(labelText: 'Pet Breed'),
+    decoration: InputDecoration(labelText: 'Pet Breed',
+    border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,),
     validator: (value) =>
     value!.isEmpty ? 'Please enter pet breed' : null,
     ),
+    SizedBox(height: 24.0),
     TextFormField(
     controller: _petAgeController,
-    decoration: InputDecoration(labelText: 'Pet Age'),
+    decoration: InputDecoration(labelText: 'Pet Age',
+    border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,),
     validator: (value) =>
     value!.isEmpty ? 'Please enter pet age' : null,
     ),
+    SizedBox(height: 24.0),
     TextFormField(
     controller: _petPriceController,
-    decoration: InputDecoration(labelText: 'Pet Price'),
+    decoration: InputDecoration(labelText: 'Pet Price',
+    border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,),
     validator: (value) => value!.isEmpty ? 'Please enter pet price' : null,
     ),
+    SizedBox(height: 24.0),
       TextFormField(
         controller: _petDescriptionController,
-        decoration: InputDecoration(labelText: 'Pet Description'),
+        decoration: InputDecoration(labelText: 'Pet Description',border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,),
         validator: (value) =>
         value!.isEmpty ? 'Please enter pet description' : null,
       ),
-      SizedBox(height: 16),
-      ElevatedButton(
-        onPressed: _updateListing,
-        child: Text('Save Changes'),
+      SizedBox(height: 30),
+      SizedBox(
+        height: 50,
+        width: 200,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(primary: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0),),),
+          child: const Text('Save Changes',style: TextStyle(fontSize: 20, color: Colors.blueAccent),),
+          onPressed: _updateListing,
+      ),
       ),
     ],
     ),
