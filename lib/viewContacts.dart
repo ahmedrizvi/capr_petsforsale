@@ -31,6 +31,8 @@ class _ContactsScreenState extends State<ContactsScreen> {
         'id': chatId,
         'name': name,
         'email': email,
+        'initiatorName': FirebaseAuth.instance.currentUser?.displayName,
+        'initiatorEmail': FirebaseAuth.instance.currentUser?.email,
         'userId': FirebaseAuth.instance.currentUser?.uid,
       });
 
@@ -125,8 +127,18 @@ class _ContactsScreenState extends State<ContactsScreen> {
                       itemCount: documents.length,
                       itemBuilder: (context, index) {
                         final contact = documents[index];
-                        final String name = contact['name'];
-                        final String email = contact['email'];
+                        final String name;
+                        final String email;
+
+                        if (FirebaseAuth.instance.currentUser?.uid ==
+                            contact['userId']) {
+                          name = contact['name'];
+                          email = contact['email'];
+                        } else {
+                          name = contact['initiatorName'];
+                          email = contact['initiatorEmail'];
+                        }
+
                         final String chatId = contact['id'];
 
                         return ListTile(
