@@ -18,6 +18,9 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   late final User _user;
 
+  // Index of the selected message (-1 if none is selected)
+  int _selectedMessageIndex = -1;
+
   @override
   void initState() {
     super.initState();
@@ -58,8 +61,8 @@ class _ChatScreenState extends State<ChatScreen> {
             Icons.arrow_back,
             color: Colors.black,
           ),
-          onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ContactsScreen())),
+          onPressed: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ContactsScreen())),
         ),
       ),
       body: Column(
@@ -88,20 +91,37 @@ class _ChatScreenState extends State<ChatScreen> {
                         final message = snapshot.data?.docs[index];
                         final String text = message?['text'];
                         final String senderId = message?['senderId'];
+                        final int timestamp = message?['timestamp'];
                         final bool isMe = senderId == _user.uid;
 
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0,
-                            vertical: 4.0,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: isMe
-                                ? MainAxisAlignment.end
-                                : MainAxisAlignment.start,
-                            children: [
-                              Flexible(
-                                child: Container(
+                        final messageTime =
+                            DateTime.fromMillisecondsSinceEpoch(timestamp)
+                                .toLocal()
+                                .toString()
+                                .substring(0, 16);
+
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (_selectedMessageIndex == index) {
+                                _selectedMessageIndex =
+                                    -1; // Collapse the message box
+                              } else {
+                                _selectedMessageIndex = index;
+                              }
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                              vertical: 4.0,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: isMe
+                                  ? CrossAxisAlignment.end
+                                  : CrossAxisAlignment.start,
+                              children: [
+                                Container(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 10.0,
                                     vertical: 8.0,
@@ -127,8 +147,28 @@ class _ChatScreenState extends State<ChatScreen> {
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                                if (_selectedMessageIndex == index)
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.0,
+                                      vertical: 4.0,
+                                    ),
+                                    alignment: isMe
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                    child: Text(
+                                      messageTime,
+                                      style: TextStyle(
+                                        color: isMe
+                                            ? Colors.black54
+                                            : Colors.black54,
+                                        fontSize: 12.0,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
                         );
                       },
