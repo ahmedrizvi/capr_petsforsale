@@ -6,12 +6,25 @@ import 'viewMessages.dart';
 import 'AccountHome.dart';
 
 class ContactsScreen extends StatefulWidget {
+  final String? email;
+
+  const ContactsScreen({Key? key, this.email}) : super(key: key);
   @override
   _ContactsScreenState createState() => _ContactsScreenState();
 }
 
 class _ContactsScreenState extends State<ContactsScreen> {
   final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.email != null) {
+      _emailController.text = widget.email!;
+      _addContact();
+    }
+  }
+
   User? userId = FirebaseAuth.instance.currentUser;
   // Add a new contact to Firestore
   void _addContact() async {
