@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 
@@ -6,7 +7,8 @@ void main() => runApp(const Forget());
 class Forget extends StatelessWidget {
   const Forget({Key? key}) : super(key: key);
 
-  static const String _title = 'Canis Orbis';
+  static const String _title = 'Pet Store';
+  final appbarcl = const Color(0xFFF8EDEB);
 
   @override
   Widget build(BuildContext context) {
@@ -14,17 +16,17 @@ class Forget extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: _title,
       home: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: appbarcl,
         appBar: AppBar(
             elevation: 0,
             centerTitle: true,
-            backgroundColor: Colors.black,
+            backgroundColor: appbarcl,
             title: const Text(
-              "Canis",
+              "Reset your Password",
               style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'Palatino'),
+                  fontFamily: 'Montserrat'),
             )),
         body: const MyStatefulWidget(),
       ),
@@ -40,39 +42,46 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  bool _isvisible = false, _isvisible2 = false;
-  bool _nameError = false, _passEmpty1 = false, _passEmpty2 = false;
-  String _passMessage = '';
+  bool _nameError = false;
   final textbg = const Color(0xFF3D3D3D);
-  static const String _title = 'Canis Orbis';
+  final appbarcl = const Color(0xFFF8EDEB);
 
   TextEditingController nameController = TextEditingController();
-  TextEditingController pass = TextEditingController();
-  TextEditingController confirm_Pass = TextEditingController();
 
   void dispose() {
     nameController.dispose();
-    pass.dispose();
-    confirm_Pass.dispose();
     super.dispose();
   }
-
-  void clearText() {
-    pass.clear();
-    confirm_Pass.clear();
-  }
-
   void errorRun() {
     openDialog();
-    clearText();
   }
-
+  Future passwordReset() async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+          email: nameController.text.trim());
+      showDialog(
+          context: context,
+          builder: (context){
+            return AlertDialog(
+              content: Text('Password Reset Link sent! Check your email.'),
+            );
+          });
+    } on FirebaseAuthException catch(e) {
+          showDialog(
+              context: context,
+              builder: (context){
+                return AlertDialog(
+                  content: Text(e.message.toString()),
+                );
+              });
+    }
+    }
   Future openDialog() => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text("Success"),
-        ),
-      );
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text("Password Reset link has been sent!"),
+    ),
+  );
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -83,128 +92,50 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
               alignment: Alignment.center,
               child: const Text(
-                  'Having trouble logging in? You can reset your password here',
-                  style: TextStyle(color: Colors.grey, fontSize: 18))),
+                  'Enter your email and we will send you a password reset link',
+                  style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'))),
           Container(
             padding: const EdgeInsets.all(10),
             child: TextField(
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.black),
               controller: nameController,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: textbg,
+                fillColor: Colors.white,
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Colors.black)),
                 labelText: 'Enter Your Email Address',
-                labelStyle: const TextStyle(color: Colors.white70),
+                labelStyle: const TextStyle(color: Colors.black),
                 errorText: _nameError ? 'Please enter your email' : null,
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: TextField(
-              style: const TextStyle(color: Colors.white),
-              controller: pass,
-              obscureText: !_isvisible,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: textbg,
-                suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _isvisible = !_isvisible;
-                      });
-                    },
-                    icon: _isvisible
-                        ? Icon(
-                            Icons.visibility,
-                            color: Colors.white,
-                          )
-                        : Icon(
-                            Icons.visibility_off,
-                            color: Colors.grey,
-                          )),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.grey)),
-                labelText: 'Enter Your New Password',
-                labelStyle: const TextStyle(color: Colors.white70),
-                errorText:
-                    _passEmpty1 ? 'Please Enter Your New Password' : null,
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: TextField(
-              style: const TextStyle(color: Colors.white),
-              controller: confirm_Pass,
-              obscureText: !_isvisible2,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: textbg,
-                suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _isvisible2 = !_isvisible2;
-                      });
-                    },
-                    icon: _isvisible2
-                        ? Icon(
-                            Icons.visibility,
-                            color: Colors.white,
-                          )
-                        : Icon(
-                            Icons.visibility_off,
-                            color: Colors.grey,
-                          )),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.blueAccent)),
-                labelText: 'Re-Enter Your New Password',
-                labelStyle: const TextStyle(color: Colors.white70),
-                errorText: _passEmpty2 ? _passMessage : null,
-              ),
-            ),
-          ),
+
           Container(
               height: 300,
               padding: const EdgeInsets.fromLTRB(50, 230, 50, 10),
               child: MaterialButton(
-                color: Colors.blueAccent,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: const Text('Submit',
-                    style: TextStyle(fontSize: 20, color: Colors.white)),
-                onPressed: () {
-                  setState(() {
-                    _passMessage = "Please Confirm Your Password";
-                    nameController.text.isEmpty
-                        ? _nameError = true
-                        : _nameError = false;
-                    pass.text.isEmpty
-                        ? _passEmpty1 = true
-                        : _passEmpty1 = false;
-                    confirm_Pass.text.isEmpty
-                        ? _passEmpty2 = true
-                        : _passEmpty2 = false;
-                  });
-                  if (nameController.text.isNotEmpty) {
-                    if (confirm_Pass.text != pass.text) {
-                      confirm_Pass.clear();
-                      _passMessage = 'Password\'s don\'t Match';
-                      setState(() {
-                        confirm_Pass.text != pass.text
-                            ? _passEmpty2 = true
-                            : _passEmpty2 = false;
-                      });
-                    } else {
-                      openDialog();
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: const Text('Reset Password',
+                      style: TextStyle(fontSize: 20, color: Colors.blueAccent)),
+                  onPressed: () async {
+                    setState(() {
+                      nameController.text.isEmpty
+                          ? _nameError = true
+                          : _nameError = false;
+                    });
+                    if (nameController.text.isNotEmpty) {
+                      try {
+                        passwordReset();
+                      } catch (e) {
+                        // Display error message based on the error code
+                        print("Error while sending password reset email: $e");
+                      }
                     }
                   }
-                },
               )),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
