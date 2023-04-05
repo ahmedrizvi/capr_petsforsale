@@ -179,6 +179,12 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                     'phone number:': _phoneNumberController.text,
                     'address:': _addressController.text,
                   });
+
+                  // Update the display name of the current user
+                  User? user = _auth.currentUser;
+                  if (user != null) {
+                    await user.updateDisplayName(_displayNameController.text);
+                  }
                   label:
                   Text('My Button');
                   // Reload the user information from Firestore

@@ -488,7 +488,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       style: TextStyle(fontSize: 20, color: Colors.blueAccent)),
                   onPressed: () {
                     setState(() {
-                      _CpassMessage = 'Please Enter Your Conformation Password';
+                      _CpassMessage = 'Please Enter Your Confirmation Password';
                       _FnameController.text.isEmpty
                           ? _FnameError = true
                           : _FnameError = false;
@@ -534,7 +534,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             .createUserWithEmailAndPassword(
                                 email: emailController.text,
                                 password: passwordController.text)
-                            .then((value) {
+                            .then((value) async {
+                          // Set the display name for the newly created user
+                          await value.user
+                              ?.updateDisplayName(userNameController.text);
                           addUserDetails(
                               _FnameController.text.trim(),
                               _LnameController.text.trim(),
