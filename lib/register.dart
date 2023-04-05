@@ -9,7 +9,7 @@ class Register extends StatelessWidget {
   const Register({Key? key}) : super(key: key);
 
   final appbarcl = const Color(0xFFF8EDEB);
-  static const String _title = 'Canis Orbis';
+  static const String _title = 'Pet Store';
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class Register extends StatelessWidget {
             elevation: 0,
             centerTitle: true,
             title: const Text(
-              "Canis",
+              "Create An Account",
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -46,6 +46,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final textbg = const Color(0xFF3D3D3D);
   final appbarcl = const Color(0xFFF8EDEB);
 
+  final RegExp capitalLetter = RegExp('[a-zA-Z]');
+  final RegExp numbercheck = RegExp('[0-9]');
+  final RegExp specialcheck = RegExp('[\$&+,:;=?@#|*()]');
+
   bool _FnameError = false,
       _LnameError = false,
       _usernameError = false,
@@ -64,7 +68,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   String _CpassMessage = '';
 
-  onPasswordChanged(String password) {}
+  onPasswordChanged(String password) {
+    _8Characters = false;
+    _1NumCharacters = false;
+    _1CapitalCharacters = false;
+    _1SpeCharacters = false;
+
+    setState(() {
+      if (password.length >= 8) _8Characters = true;
+      if (numbercheck.hasMatch(password)) _1NumCharacters = true;
+      if (capitalLetter.hasMatch(password)) _1CapitalCharacters = true;
+      if (specialcheck.hasMatch(password)) _1SpeCharacters = true;
+    });
+  }
 
   TextEditingController _FnameController = TextEditingController();
   TextEditingController _LnameController = TextEditingController();
@@ -81,7 +97,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           title: Text("Success"),
         ),
       );
-  Future addUserDetails(String firstName, String lastName, String userName, String email, String phoneNumber, String address) async {
+  Future addUserDetails(String firstName, String lastName, String userName,
+      String email, String phoneNumber, String address) async {
     await FirebaseFirestore.instance.collection('users').add({
       'first name:': firstName,
       'last name:': lastName,
@@ -91,23 +108,24 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       'address:': address,
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
-            Container(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                alignment: Alignment.center,
-                child: const Text('Sign up to buy, sell or view pets!',
-                    style: TextStyle(color: Colors.black, fontSize: 18))),
             Row(children: [
               const SizedBox(width: 10),
               Expanded(
                 child: TextField(
                   style: const TextStyle(color: Colors.black),
                   controller: _FnameController,
+                  onChanged: (value) {
+                    setState(() {
+                      _FnameError = false;
+                    });
+                  },
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
@@ -128,9 +146,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: TextField(
                   style: const TextStyle(color: Colors.black),
                   controller: _LnameController,
+                  onChanged: (value) {
+                    setState(() {
+                      _LnameError = false;
+                    });
+                  },
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor:  Colors.white,
+                    fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -153,6 +176,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 },
                 style: const TextStyle(color: Colors.black),
                 controller: userNameController,
+                onChanged: (value) {
+                  setState(() {
+                    _usernameError = false;
+                  });
+                },
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -163,7 +191,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   labelText: 'Username',
                   labelStyle: const TextStyle(color: Colors.black),
                   errorText:
-                  _usernameError ? 'Please Enter Your Username' : null,
+                      _usernameError ? 'Please Enter Your Username' : null,
                 ),
               ),
             ),
@@ -175,6 +203,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 },
                 style: const TextStyle(color: Colors.black),
                 controller: emailController,
+                onChanged: (value) {
+                  setState(() {
+                    _emailError = false;
+                  });
+                },
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -191,8 +224,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
-                onChanged: (passwordController) =>
-                    onPasswordChanged(passwordController),
+                onChanged: (value) {
+                  onPasswordChanged(value);
+                  setState(() {
+                    _passError = false;
+                  });
+                },
                 style: const TextStyle(color: Colors.black),
                 controller: passwordController,
                 obscureText: !_isvisible,
@@ -233,7 +270,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
+                    color:
+                        _8Characters ? Colors.blueAccent : Colors.transparent,
+                    border: _8Characters
+                        ? Border.all(color: Colors.transparent)
+                        : Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
@@ -259,7 +300,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
+                    color: _1NumCharacters
+                        ? Colors.blueAccent
+                        : Colors.transparent,
+                    border: _1NumCharacters
+                        ? Border.all(color: Colors.transparent)
+                        : Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
@@ -285,7 +331,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
+                    color: _1SpeCharacters
+                        ? Colors.blueAccent
+                        : Colors.transparent,
+                    border: _1SpeCharacters
+                        ? Border.all(color: Colors.transparent)
+                        : Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
@@ -311,7 +362,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
+                    color: _1CapitalCharacters
+                        ? Colors.blueAccent
+                        : Colors.transparent,
+                    border: _1CapitalCharacters
+                        ? Border.all(color: Colors.transparent)
+                        : Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
@@ -336,6 +392,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 style: const TextStyle(color: Colors.black),
                 obscureText: !_isvisible2,
                 controller: confPasswordController,
+                onChanged: (value) {
+                  setState(() {
+                    _CpassError = false;
+                  });
+                },
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -372,6 +433,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 },
                 style: const TextStyle(color: Colors.black),
                 controller: addressController,
+                onChanged: (value) {
+                  setState(() {
+                    _addressError = false;
+                  });
+                },
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -380,8 +446,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   ),
                   labelText: 'Address',
                   labelStyle: const TextStyle(color: Colors.black),
-                  errorText:
-                  _addressError ? 'Please Enter Your Physical Address' : null,
+                  errorText: _addressError
+                      ? 'Please Enter Your Physical Address'
+                      : null,
                 ),
               ),
             ),
@@ -393,6 +460,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 },
                 style: const TextStyle(color: Colors.black),
                 controller: phoneNumberController,
+                onChanged: (value) {
+                  setState(() {
+                    _phoneNumberError = false;
+                  });
+                },
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -401,18 +473,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   ),
                   labelText: 'Phone number',
                   labelStyle: const TextStyle(color: Colors.black),
-                  errorText:
-                  _phoneNumberError ? 'Please Enter Your Phone Number' : null,
+                  errorText: _phoneNumberError
+                      ? 'Please Enter Your Phone Number'
+                      : null,
                 ),
               ),
             ),
             Container(
-                height: 250,
-                padding: const EdgeInsets.fromLTRB(40, 150, 40, 40),
+                height: 60,
+                padding: const EdgeInsets.fromLTRB(40, 10, 40, 0),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white
-                  ),
+                  style: ElevatedButton.styleFrom(primary: Colors.white),
                   child: const Text('Create',
                       style: TextStyle(fontSize: 20, color: Colors.blueAccent)),
                   onPressed: () {
@@ -459,23 +530,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                               : _CpassError = false;
                         });
                       } else {
-                        FirebaseAuth.instance.createUserWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text).then((value) {
-                            addUserDetails(
-                                _FnameController.text.trim(),
-                                _LnameController.text.trim(),
-                                userNameController.text.trim(),
-                                emailController.text.trim(),
-                                phoneNumberController.text.trim(),
-                                addressController.text.trim()
-                            );
+                        FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text)
+                            .then((value) {
+                          addUserDetails(
+                              _FnameController.text.trim(),
+                              _LnameController.text.trim(),
+                              userNameController.text.trim(),
+                              emailController.text.trim(),
+                              phoneNumberController.text.trim(),
+                              addressController.text.trim());
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Login()));
                         });
-
-
-
                       }
                     }
                   },

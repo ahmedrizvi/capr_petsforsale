@@ -67,6 +67,11 @@ class _MyStatefulWidgetState extends State<login> {
               child: TextField(
                 style: const TextStyle(color: Colors.black),
                 controller: nameController,
+                onChanged: (value) {
+                  setState(() {
+                    _nameError = false;
+                  });
+                },
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -85,6 +90,11 @@ class _MyStatefulWidgetState extends State<login> {
                 style: const TextStyle(color: Colors.black),
                 controller: passwordController,
                 obscureText: !_isvisible,
+                onChanged: (value) {
+                  setState(() {
+                    _passEmpty1 = false;
+                  });
+                },
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -126,24 +136,18 @@ class _MyStatefulWidgetState extends State<login> {
               },
             ),
             Container(
-             //   height: 400,
+                height: 400,
                 padding: const EdgeInsets.fromLTRB(50, 340, 50, 10),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0),),),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
                   child: const Text('Login',
                       style: TextStyle(fontSize: 20, color: Colors.blueAccent)),
                   onPressed: () {
-                    FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
-                            email: nameController.text,
-                            password: passwordController.text)
-                        .then((value) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AccountHome()));
-                    });
                     setState(() {
                       nameController.text.isEmpty
                           ? _nameError = true
@@ -152,7 +156,25 @@ class _MyStatefulWidgetState extends State<login> {
                           ? _passEmpty1 = true
                           : _passEmpty1 = false;
                     });
-                    if (nameController.text.isNotEmpty) {}
+                    if (_nameError == false && _passEmpty1 == false) {
+                      try {
+                        FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: nameController.text,
+                                password: passwordController.text)
+                            .then((value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AccountHome()));
+                        });
+                      } catch (e) {
+                        setState(() {
+                          _nameError = true;
+                          _passEmpty1 = true;
+                        });
+                      }
+                    }
                   },
                 )),
             Row(

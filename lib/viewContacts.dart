@@ -128,6 +128,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                         final String name = contact['name'];
                         final String email = contact['email'];
                         final String chatId = contact['id'];
+                        
                         return ListTile(
                           shape: RoundedRectangleBorder(
                             side: BorderSide(width: 2),

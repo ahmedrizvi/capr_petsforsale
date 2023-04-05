@@ -7,7 +7,7 @@ void main() => runApp(const Forget());
 class Forget extends StatelessWidget {
   const Forget({Key? key}) : super(key: key);
 
-  static const String _title = 'Canis Orbis';
+  static const String _title = 'Pet Store';
   final appbarcl = const Color(0xFFF8EDEB);
 
   @override
@@ -22,7 +22,7 @@ class Forget extends StatelessWidget {
             centerTitle: true,
             backgroundColor: appbarcl,
             title: const Text(
-              "Canis",
+              "Reset your Password",
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
