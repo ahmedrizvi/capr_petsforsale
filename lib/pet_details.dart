@@ -1,3 +1,4 @@
+import 'package:capr_petsforsale/viewContacts.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -48,10 +49,10 @@ class _PetDetailsPageState extends State<PetDetailsPage> {
                 "Type: ${widget.pet["petType:"]}",
                 style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
               ),
-               SizedBox(height: 10),
+              SizedBox(height: 10),
               Text(
                 "Breed: ${widget.pet["petBreed:"]}",
-               style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
+                style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
               ),
               SizedBox(height: 10),
               Text(
@@ -72,6 +73,27 @@ class _PetDetailsPageState extends State<PetDetailsPage> {
               Text(
                 "Description: ${widget.pet["petDescription:"]}",
                 style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ContactsScreen(email: widget.pet["listingOwnerEmail:"]),
+                    ),
+                  );
+                },
+                child: Icon(Icons.message),
               ),
             ],
           ),
