@@ -32,10 +32,35 @@ class myListings extends StatelessWidget {
 class ListingsPage extends StatelessWidget {
   const ListingsPage({Key? key}) : super(key: key);
 
-  Future<void> deleteListing(String listingId) async {
-    final firestore = FirebaseFirestore.instance;
-    await firestore.collection('listings').doc(listingId).delete();
+  Future<void> deleteListing(BuildContext context, String listingId) async {
+    final result = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Listing'),
+        content: const Text('Are you sure you want to delete this listing?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: const Text('Yes'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('No'),
+          ),
+        ],
+      ),
+    );
+
+    if (result == true) {
+      final firestore = FirebaseFirestore.instance;
+      await firestore.collection('listings').doc(listingId).delete();
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +200,7 @@ class ListingsPage extends StatelessWidget {
                             // Add some space between the buttons
                             TextButton(
                               onPressed: () {
-                                deleteListing(listing.id);
+                                deleteListing(context, listing.id);
                               },
                               child: Text('Delete Listing'),
                               style: TextButton.styleFrom(
