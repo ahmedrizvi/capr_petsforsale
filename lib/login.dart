@@ -80,7 +80,7 @@ class _MyStatefulWidgetState extends State<login> {
                   ),
                   labelText: 'Enter Your Email Address',
                   labelStyle: const TextStyle(color: Colors.black),
-                  errorText: _nameError ? 'Please enter your email' : null,
+                  errorText: _nameError ? 'Invalid email address' : null,
                 ),
               ),
             ),
@@ -118,7 +118,7 @@ class _MyStatefulWidgetState extends State<login> {
                   ),
                   labelText: 'Enter Your Password',
                   labelStyle: const TextStyle(color: Colors.black),
-                  errorText: _passEmpty1 ? 'Please Enter Your Password' : null,
+                  errorText: _passEmpty1 ? 'Please enter your password' : null,
                 ),
               ),
             ),
@@ -147,32 +147,37 @@ class _MyStatefulWidgetState extends State<login> {
                   ),
                   child: const Text('Login',
                       style: TextStyle(fontSize: 20, color: Colors.blueAccent)),
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
-                      nameController.text.isEmpty
-                          ? _nameError = true
-                          : _nameError = false;
-                      passwordController.text.isEmpty
-                          ? _passEmpty1 = true
-                          : _passEmpty1 = false;
+                      _nameError = nameController.text.isEmpty;
+                      _passEmpty1 = passwordController.text.isEmpty;
                     });
-                    if (_nameError == false && _passEmpty1 == false) {
+
+                    if (!_nameError && !_passEmpty1) {
                       try {
-                        FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
-                                email: nameController.text,
-                                password: passwordController.text)
-                            .then((value) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AccountHome()));
-                        });
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: nameController.text,
+                          password: passwordController.text,
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AccountHome()),
+                        );
                       } catch (e) {
-                        setState(() {
-                          _nameError = true;
-                          _passEmpty1 = true;
-                        });
+                        if (e is FirebaseAuthException) {
+                          // if error is due to the email not being registered, display an error message
+                          if (e.code == 'user-not-found') {
+                            setState(() {
+                              _nameError = true;
+                            });
+                          } else {
+                            // if error is due to an invalid password, display an error message for the password field
+                            setState(() {
+                              _passEmpty1 = true;
+                            });
+                          }
+                        } else {}
                       }
                     }
                   },
