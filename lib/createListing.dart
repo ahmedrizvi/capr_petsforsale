@@ -63,7 +63,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final textbg = const Color(0xFF3D3D3D);
-
+  bool _isButtonDisabled = false;
   bool _pNameError = false,
       _pTypeError = false,
       _pBreedError = false,
@@ -353,63 +353,60 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   ),
                   child: const Text('Create',
                       style: TextStyle(fontSize: 20, color: Colors.blueAccent)),
-                  onPressed: () async {
-                    setState(() {
-                      _petNameController.text.isEmpty
-                          ? _pNameError = true
-                          : _pNameError = false;
-                      _petTypeController.text.isEmpty
-                          ? _pTypeError = true
-                          : _pTypeError = false;
-                      _petBreedController.text.isEmpty
-                          ? _pBreedError = true
-                          : _pBreedError = false;
-                      _petAgeController.text.isEmpty
-                          ? _pAgeError = true
-                          : _pAgeError = false;
-                      _petPriceController.text.isEmpty
-                          ? _pPriceError = true
-                          : _pPriceError = false;
-                      _petDescriptionController.text.isEmpty
-                          ? _pDescriptionError = true
-                          : _pDescriptionError = false;
-                    });
+                  onPressed: (_isButtonDisabled)
+                      ? null
+                      : () async {
                     if (_petNameController.text.isNotEmpty &&
                         _selectedPetType != null &&
                         _selectedPetBreed != null &&
                         _petAgeController.text.isNotEmpty &&
                         _petPriceController.text.isNotEmpty &&
-                        _petDescriptionController.text.isNotEmpty) {
+                        _petDescriptionController.text.isNotEmpty &&
+                        image != null) {
+                      setState(() {
+                        _isButtonDisabled = true;
+                      });
                       var storage = FirebaseStorage.instance
                           .ref()
                           .child("photos/${image!.name}");
                       var uploadtask = storage.putFile(File(image!.path));
-                      await uploadtask.whenComplete(() {
-                        storage.getDownloadURL().then((fileUrl) {
-                          setState(() {
-                            url = fileUrl.toString();
-                          });
+                      await uploadtask.whenComplete(() async {
+                        String fileUrl = await storage.getDownloadURL();
+                        setState(() {
+                          url = fileUrl;
                         });
-                      });
-                      String? userName =
-                          FirebaseAuth.instance.currentUser?.email;
-                      addPetListing(
-                        _petNameController.text.trim(),
-                        _selectedPetType!,
-                        _selectedPetBreed!,
-                        int.parse(_petAgeController.text.trim()),
-                        double.parse(_petPriceController.text.trim()),
-                        _petDescriptionController.text.trim(),
-                        userName,
-                        url,
-                      );
-                      openDialog();
-                      Navigator.push(
+
+                        String? userName = FirebaseAuth.instance.currentUser?.email;
+                        await addPetListing(
+                          _petNameController.text.trim(),
+                          _selectedPetType!,
+                          _selectedPetBreed!,
+                          int.parse(_petAgeController.text.trim()),
+                          double.parse(_petPriceController.text.trim()),
+                          _petDescriptionController.text.trim(),
+                          userName,
+                          url,
+                        );
+                        openDialog();
+                        Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => AccountHome()));
+                          MaterialPageRoute(builder: (context) => AccountHome()),
+                        );
+                      });
+                    } else {
+                      setState(() {
+                        _petNameController.text.isEmpty ? _pNameError = true : _pNameError = false;
+                        _selectedPetType == null ? _pTypeError = true : _pTypeError = false;
+                        _selectedPetBreed == null ? _pBreedError = true : _pBreedError = false;
+                        _petAgeController.text.isEmpty ? _pAgeError = true : _pAgeError = false;
+                        _petPriceController.text.isEmpty ? _pPriceError = true : _pPriceError = false;
+                        _petDescriptionController.text.isEmpty ? _pDescriptionError = true : _pDescriptionError = false;
+                      });
                     }
                   },
+
+
+
                 )),
           ],
         ));
