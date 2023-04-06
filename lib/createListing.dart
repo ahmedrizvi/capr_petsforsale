@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'AccountHome.dart';
 
@@ -254,6 +255,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 },
                 style: const TextStyle(color: Colors.black),
                 controller: _petAgeController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -274,6 +280,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 },
                 style: const TextStyle(color: Colors.black),
                 controller: _petPriceController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
