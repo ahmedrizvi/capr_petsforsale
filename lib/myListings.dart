@@ -35,6 +35,7 @@ class ListingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appbarcl = const Color(0xFFF8EDEB);
+    
     final firestore = FirebaseFirestore.instance;
     final user = FirebaseAuth.instance.currentUser;
 
@@ -91,7 +92,7 @@ class ListingsPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(listing["petName:"],style: const TextStyle(fontWeight:FontWeight.bold ,color: Colors.black, fontSize: 25, fontFamily: 'Montserrat')),
+                            Text(listing["petName:"],style: const TextStyle(fontWeight:FontWeight.bold ,color: Colors.black, fontSize: 30, fontFamily: 'Montserrat')),
                             ],
                           ),
                           SizedBox(height: 5,),
@@ -115,22 +116,38 @@ class ListingsPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Breed: ${listing["petBreed:"]}",
+                                    "Breed:",
+                                    style: TextStyle(color: Colors.grey.shade700, fontSize: 18, fontFamily: 'Montserrat'),
+                                  ),
+                                  Text(
+                                    "${listing["petBreed:"]}",
                                     style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    "Age: ${listing["petAge:"]} year",
+                                    "Age:",
+                                    style: TextStyle(color: Colors.grey.shade700, fontSize: 18, fontFamily: 'Montserrat'),
+                                  ),
+                                  Text(
+                                    "${listing["petAge:"]} year",
                                     style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    "Price: \$${listing["petPrice:"]}",
+                                    "Price: ",
+                                    style: TextStyle(color: Colors.grey.shade700, fontSize: 18, fontFamily: 'Montserrat'),
+                                  ),
+                                  Text(
+                                    "\$${listing["petPrice:"]}",
                                     style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    "Description: ${listing["petDescription:"]}",
+                                    "Description: ",
+                                    style: TextStyle(color: Colors.grey.shade700, fontSize: 18, fontFamily: 'Montserrat'),
+                                  ),
+                                  Text(
+                                    "${listing["petDescription:"]}",
                                     style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
                                   ),
                                 ],

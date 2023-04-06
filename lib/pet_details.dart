@@ -43,35 +43,105 @@ class _PetDetailsPageState extends State<PetDetailsPage> {
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               ),
-              SizedBox(height: 24),
+              SizedBox(height: 24), 
               Text(
-                "Type: ${widget.pet["petType:"]}",
-                style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
+                "Type:",
+                style: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 18,
+                    fontFamily: 'Montserrat'),
               ),
-               SizedBox(height: 10),
               Text(
-                "Breed: ${widget.pet["petBreed:"]}",
-               style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
+                "${widget.pet["petType:"]}",
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                    fontFamily: 'Montserrat'),
               ),
-              SizedBox(height: 10),
-              Text(
-                "Age: ${widget.pet["petAge:"]}",
-                style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
+              SizedBox(
+                height: 5,
               ),
-              SizedBox(height: 10),
               Text(
-                "Price: ${widget.pet["petPrice:"]}",
-                style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
+                "Breed:",
+                style: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 18,
+                    fontFamily: 'Montserrat'),
               ),
-              SizedBox(height: 10),
               Text(
-                "Listed By: ${widget.pet["listingOwnerEmail:"]}",
-                style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
+                "${widget.pet["petBreed:"]}",
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                    fontFamily: 'Montserrat'),
               ),
-              SizedBox(height: 10),
+              SizedBox(
+                height: 5,
+              ),
               Text(
-                "Description: ${widget.pet["petDescription:"]}",
-                style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Montserrat'),
+                "Age:",
+                style: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 18,
+                    fontFamily: 'Montserrat'),
+              ),
+              Text(
+                "${widget.pet["petAge:"]} year",
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontFamily: 'Montserrat'),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "Price:",
+                style: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 18,
+                    fontFamily: 'Montserrat'),
+              ),
+              Text(
+                "\$${widget.pet["petPrice:"]}",
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontFamily: 'Montserrat'),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "Listed By:",
+                style: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 18,
+                    fontFamily: 'Montserrat'),
+              ),
+              Text(
+                "${widget.pet["listingOwnerEmail:"]}",
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontFamily: 'Montserrat'),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "Description:",
+                style: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 18,
+                    fontFamily: 'Montserrat'),
+              ),
+              Text(
+                "${widget.pet["petDescription:"]}",
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontFamily: 'Montserrat'),
               ),
             ],
           ),

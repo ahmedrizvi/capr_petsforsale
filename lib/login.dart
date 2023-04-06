@@ -136,8 +136,8 @@ class _MyStatefulWidgetState extends State<login> {
               },
             ),
             Container(
-                height: 400,
-                padding: const EdgeInsets.fromLTRB(50, 340, 50, 10),
+              height: 400,
+                padding: const EdgeInsets.fromLTRB(80, 330, 80, 10),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,
@@ -157,7 +157,6 @@ class _MyStatefulWidgetState extends State<login> {
                           : _passEmpty1 = false;
                     });
                     if (_nameError == false && _passEmpty1 == false) {
-                      try {
                         FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: nameController.text,
@@ -168,12 +167,6 @@ class _MyStatefulWidgetState extends State<login> {
                               MaterialPageRoute(
                                   builder: (context) => AccountHome()));
                         });
-                      } catch (e) {
-                        setState(() {
-                          _nameError = true;
-                          _passEmpty1 = true;
-                        });
-                      }
                     }
                   },
                 )),

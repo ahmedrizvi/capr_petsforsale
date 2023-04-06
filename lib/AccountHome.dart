@@ -93,7 +93,7 @@ class AccountHome extends StatelessWidget {
                 ),
                 SizedBox(height: 16.0),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
                   child: Text(
                     'Browse Listings',
                     style: TextStyle(
@@ -105,7 +105,7 @@ class AccountHome extends StatelessWidget {
                 ),
                 SizedBox(height: 16.0),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                 padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -124,7 +124,7 @@ class AccountHome extends StatelessWidget {
                             );
                           },
                           child: Padding(
-                            padding: EdgeInsets.all(16.0),
+                           padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                             child: Row(
                               children: [
                                 Icon(Icons.person,
@@ -159,7 +159,7 @@ class AccountHome extends StatelessWidget {
                             );
                           },
                           child: Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                             child: Row(
                               children: [
                                 Icon(Icons.add,
@@ -194,7 +194,7 @@ class AccountHome extends StatelessWidget {
                             );
                           },
                           child: Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                             child: Row(
                               children: [
                                 Icon(Icons.pets,
@@ -229,14 +229,14 @@ class AccountHome extends StatelessWidget {
                             );
                           },
                           child: Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                             child: Row(
                               children: [
                                 Icon(Icons.search,
                                     color: Theme.of(context).primaryColor),
                                 SizedBox(width: 16.0),
                                 Text(
-                                  'View Other Pet Listings',
+                                  'View All Listings',
                                   style: TextStyle(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold,
@@ -264,7 +264,7 @@ class AccountHome extends StatelessWidget {
                             );
                           },
                           child: Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                             child: Row(
                               children: [
                                 Icon(Icons.message,
@@ -319,7 +319,7 @@ class AccountHome extends StatelessWidget {
                             );
                           },
                           child: Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                             child: Row(
                               children: [
                                 Icon(Icons.logout,

@@ -57,7 +57,7 @@ class _ListingsPageState extends State<ListingsPage> {
         elevation: 0,
         centerTitle: true,
         title: const Text(
-          'Listings For Sale Near You',
+          'Listings',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
@@ -167,7 +167,48 @@ class _ListingsPageState extends State<ListingsPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Type: ${listing["petType:"]}",
+                                        "Type:",
+                                        style: TextStyle(
+                                            color: Colors.grey.shade700,
+                                            fontSize: 18,
+                                            fontFamily: 'Montserrat'),
+                                      ),
+                                      Text(
+                                        "${listing["petType:"]}",
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 22,
+                                            fontFamily: 'Montserrat'),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        "Breed:",
+                                        style: TextStyle(
+                                            color: Colors.grey.shade700,
+                                            fontSize: 18,
+                                            fontFamily: 'Montserrat'),
+                                      ),
+                                      Text(
+                                        "${listing["petBreed:"]}",
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 22,
+                                            fontFamily: 'Montserrat'),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        "Age:",
+                                        style: TextStyle(
+                                            color: Colors.grey.shade700,
+                                            fontSize: 18,
+                                            fontFamily: 'Montserrat'),
+                                      ),
+                                      Text(
+                                        "${listing["petAge:"]} year",
                                         style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 18,
@@ -177,7 +218,14 @@ class _ListingsPageState extends State<ListingsPage> {
                                         height: 5,
                                       ),
                                       Text(
-                                        "Breed: ${listing["petBreed:"]}",
+                                        "Price:",
+                                        style: TextStyle(
+                                            color: Colors.grey.shade700,
+                                            fontSize: 18,
+                                            fontFamily: 'Montserrat'),
+                                      ),
+                                      Text(
+                                        "\$${listing["petPrice:"]}",
                                         style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 18,
@@ -187,7 +235,14 @@ class _ListingsPageState extends State<ListingsPage> {
                                         height: 5,
                                       ),
                                       Text(
-                                        "Age: ${listing["petAge:"]} year",
+                                        "Listed By:",
+                                        style: TextStyle(
+                                            color: Colors.grey.shade700,
+                                            fontSize: 18,
+                                            fontFamily: 'Montserrat'),
+                                      ),
+                                      Text(
+                                        "${listing["listingOwnerEmail:"]}",
                                         style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 18,
@@ -197,27 +252,14 @@ class _ListingsPageState extends State<ListingsPage> {
                                         height: 5,
                                       ),
                                       Text(
-                                        "Price: \$${listing["petPrice:"]}",
-                                        style: const TextStyle(
-                                            color: Colors.black,
+                                        "Description:",
+                                        style: TextStyle(
+                                            color: Colors.grey.shade700,
                                             fontSize: 18,
                                             fontFamily: 'Montserrat'),
                                       ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
                                       Text(
-                                        "Listed By: ${listing["listingOwnerEmail:"]}",
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                            fontFamily: 'Montserrat'),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "Description: ${listing["petDescription:"]}",
+                                        "${listing["petDescription:"]}",
                                         style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 18,
