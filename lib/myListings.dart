@@ -32,6 +32,11 @@ class myListings extends StatelessWidget {
 class ListingsPage extends StatelessWidget {
   const ListingsPage({Key? key}) : super(key: key);
 
+  Future<void> deleteListing(String listingId) async {
+    final firestore = FirebaseFirestore.instance;
+    await firestore.collection('listings').doc(listingId).delete();
+  }
+
   @override
   Widget build(BuildContext context) {
     final appbarcl = const Color(0xFFF8EDEB);
@@ -50,8 +55,10 @@ class ListingsPage extends StatelessWidget {
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AccountHome())),
+          onPressed: () =>
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AccountHome())),
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -74,11 +81,10 @@ class ListingsPage extends StatelessWidget {
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
-
               final listing = snapshot.data!.docs[index];
               final imageUrl = listing["imageUrl:"];
               return Card(
-                
+
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: InkWell(
                   onTap: () {
@@ -91,10 +97,14 @@ class ListingsPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(listing["petName:"],style: const TextStyle(fontWeight:FontWeight.bold ,color: Colors.black, fontSize: 25, fontFamily: 'Montserrat')),
-                            ],
-                          ),
-                          SizedBox(height: 5,),
+                            Text(listing["petName:"], style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 25,
+                                fontFamily: 'Montserrat')),
+                          ],
+                        ),
+                        SizedBox(height: 5,),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -116,27 +126,34 @@ class ListingsPage extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Breed: ${listing["petBreed:"]}",
-                                    style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
+                                    style: const TextStyle(color: Colors.black,
+                                        fontSize: 18,
+                                        fontFamily: 'Montserrat'),
                                   ),
                                   SizedBox(height: 5),
                                   Text(
                                     "Age: ${listing["petAge:"]} year",
-                                    style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
+                                    style: const TextStyle(color: Colors.black,
+                                        fontSize: 18,
+                                        fontFamily: 'Montserrat'),
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    "Price: \$${listing["petPrice:"]}",
-                                    style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
+                                    "Price: ${listing["petPrice:"]}",
+                                    style: const TextStyle(color: Colors.black,
+                                        fontSize: 18,
+                                        fontFamily: 'Montserrat'),
                                   ),
                                   SizedBox(height: 5),
                                   Text(
                                     "Description: ${listing["petDescription:"]}",
-                                    style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
+                                    style: const TextStyle(color: Colors.black,
+                                        fontSize: 18,
+                                        fontFamily: 'Montserrat'),
                                   ),
                                 ],
                               ),
                             ),
-                            
                           ],
                         ),
                         Row(
@@ -153,6 +170,17 @@ class ListingsPage extends StatelessWidget {
                                 );
                               },
                               child: Text('Edit Listing'),
+                            ),
+                            SizedBox(width: 10),
+                            // Add some space between the buttons
+                            TextButton(
+                              onPressed: () {
+                                deleteListing(listing.id);
+                              },
+                              child: Text('Delete Listing'),
+                              style: TextButton.styleFrom(
+                                primary: Colors.red,
+                              ),
                             ),
                           ],
                         ),
