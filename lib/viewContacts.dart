@@ -59,7 +59,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
   // Generate a chat ID for the current user and the new contact
   String _getChatId(String userId) {
-    final String currentUserId = '123'; // Replace with the current user's ID
+    final String currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
     if (currentUserId.compareTo(userId) < 0) {
       return '$currentUserId-$userId';
     } else {
@@ -128,7 +128,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                         final String name = contact['name'];
                         final String email = contact['email'];
                         final String chatId = contact['id'];
-                        
+
                         return ListTile(
                           shape: RoundedRectangleBorder(
                             side: BorderSide(width: 2),
