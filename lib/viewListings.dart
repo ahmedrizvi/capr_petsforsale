@@ -1,5 +1,6 @@
 import 'package:capr_petsforsale/pet_details.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -51,6 +52,7 @@ class _ListingsPageState extends State<ListingsPage> {
   @override
   Widget build(BuildContext context) {
     final firestore = FirebaseFirestore.instance;
+    final currentUserEmail = FirebaseAuth.instance.currentUser?.email;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appbarcl,
@@ -108,7 +110,9 @@ class _ListingsPageState extends State<ListingsPage> {
                       listing["petType:"] == _selectedPetType;
                   final breedMatches = _selectedPetBreed == null ||
                       listing["petBreed:"] == _selectedPetBreed;
-                  return typeMatches && breedMatches;
+                  final ownerEmailMatches =
+                      listing["listingOwnerEmail:"] != currentUserEmail;
+                  return typeMatches && breedMatches && ownerEmailMatches;
                 }).toList();
                 return ListView.builder(
                   itemCount: filteredListings.length,
