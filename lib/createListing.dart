@@ -14,7 +14,7 @@ void main() {
 class CreateListing extends StatelessWidget {
   const CreateListing({Key? key}) : super(key: key);
 
-  static const String _title = 'Canis Orbis';
+  static const String _title = 'Pets Store';
   final appbarcl = const Color(0xFFF8EDEB);
 
   @override
@@ -72,6 +72,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   late String url;
   XFile? image;
 
+  final RegExp numbercheck = RegExp('[0-9]');
+
+  onAgeChange(String age) {
+    _pAgeError = false;
+
+    setState(() {
+      if (numbercheck.hasMatch(age)) {
+        _pAgeError = true;
+      }
+    });
+  }
+
   // Pet types and breeds
   List<String> petTypes = [
     'Amphibians',
@@ -107,11 +119,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController _petDescriptionController = TextEditingController();
 
   Future openDialog() => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text("Successfully created pet listing!"),
-        ),
-      );
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text("Successfully created pet listing!"),
+    ),
+  );
 
   Future addPetListing(
       String petName,
@@ -141,14 +153,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         child: ListView(
           children: <Widget>[
             Container(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                alignment: Alignment.center,
-               ),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+              alignment: Alignment.center,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 TextField(
                   style: const TextStyle(color: Colors.black),
+                  onChanged: (value) {
+                    setState(() {
+                      _pNameError = false;
+                    });
+                  },
                   controller: _petNameController,
                   decoration: InputDecoration(
                     filled: true,
@@ -159,7 +176,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     labelText: 'Pet Name',
                     labelStyle: const TextStyle(color: Colors.black),
                     errorText:
-                        _pNameError ? 'Please Enter Your Pet Name' : null,
+                    _pNameError ? 'Please Enter Your Pet Name' : null,
                   ),
                 ),
                 SizedBox(height: 10),
@@ -174,7 +191,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     labelText: 'Pet Type',
                     labelStyle: const TextStyle(color: Colors.black),
                     errorText:
-                        _pTypeError ? 'Please Select Your Pet Type' : null,
+                    _pTypeError ? 'Please Select Your Pet Type' : null,
                   ),
                   value: _selectedPetType,
                   items: petTypes.map((String petType) {
@@ -205,7 +222,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     labelText: 'Pet Breed',
                     labelStyle: const TextStyle(color: Colors.black),
                     errorText:
-                        _pBreedError ? 'Please Select Your Pet Breed' : null,
+                    _pBreedError ? 'Please Select Your Pet Breed' : null,
                   ),
                   value: _selectedPetBreed,
                   items: _petBreeds.map((String petBreed) {
@@ -229,8 +246,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
               child: TextField(
-                onTap: () {
-                  _pAgeError = false;
+                onChanged: (value) {
+                  onAgeChange(value);
+                  setState(() {
+                    _pAgeError = false;
+                  });
                 },
                 style: const TextStyle(color: Colors.black),
                 controller: _petAgeController,
@@ -242,8 +262,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   ),
                   labelText: 'Pet Age',
                   labelStyle: const TextStyle(color: Colors.black),
-                  errorText:
-                      _pAgeError ? 'Please Enter Your Email Address' : null,
+                  errorText: _pAgeError ? 'Please Select Your Pets Age' : null,
                 ),
               ),
             ),
@@ -264,7 +283,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   labelText: 'Price',
                   labelStyle: const TextStyle(color: Colors.black),
                   errorText:
-                      _pPriceError ? 'Please Enter Your Pet Price' : null,
+                  _pPriceError ? 'Please Enter Your Pet Price' : null,
                 ),
               ),
             ),
@@ -324,17 +343,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   child: const Text('Create',
                       style: TextStyle(fontSize: 20, color: Colors.blueAccent)),
                   onPressed: () async {
-                    var storage = FirebaseStorage.instance
-                        .ref()
-                        .child("photos/${image!.name}");
-                    var uploadtask = storage.putFile(File(image!.path));
-                    await uploadtask.whenComplete(() {
-                      storage.getDownloadURL().then((fileUrl) {
-                        setState(() {
-                          url = fileUrl.toString();
-                        });
-                      });
-                    });
                     setState(() {
                       _petNameController.text.isEmpty
                           ? _pNameError = true
@@ -361,6 +369,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         _petAgeController.text.isNotEmpty &&
                         _petPriceController.text.isNotEmpty &&
                         _petDescriptionController.text.isNotEmpty) {
+                      var storage = FirebaseStorage.instance
+                          .ref()
+                          .child("photos/${image!.name}");
+                      var uploadtask = storage.putFile(File(image!.path));
+                      await uploadtask.whenComplete(() {
+                        storage.getDownloadURL().then((fileUrl) {
+                          setState(() {
+                            url = fileUrl.toString();
+                          });
+                        });
+                      });
                       String? userName =
                           FirebaseAuth.instance.currentUser?.email;
                       addPetListing(
