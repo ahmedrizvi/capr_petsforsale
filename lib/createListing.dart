@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:capr_petsforsale/AccountHome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'AccountHome.dart';
+import 'package:image_picker_for_web/image_picker_for_web.dart';
 
 void main() {
   runApp(CreateListing());
@@ -70,8 +69,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       _pAgeError = false,
       _pPriceError = false,
       _pDescriptionError = false;
-  late String url;
-  XFile? image;
+  late String url = '';
+  Uint8List? image;
+  String? fileName;
 
   final RegExp numbercheck = RegExp('[0-9]');
 
@@ -98,144 +98,143 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   ];
 
   Map<String, List<String>> petBreeds = {
-  'Amphibians': [
-  'Frog',
-  'Salamander',
-  'Caecilian',
-  'Newt',
-  'Axolotl',
-  'Pacman Frog',
-  'Fire-Bellied Toad',
-  'Mudskipper',
-  'Tree Frog',
-  'Tiger Salamander'
-  ],
-  'Arachnids': [
-  'Tarantula',
-  'Scorpion',
-  'Orb-weaver Spider',
-  'Jumping Spider',
-  'Huntsman Spider',
-  'Trapdoor Spider',
-  'Daddy Longlegs',
-  'Black Widow',
-  'Camel Spider',
-  'Harvestman'
-  ],
-  'Birds': [
-  'Parrot',
-  'Canary',
-  'Finch',
-  'Cockatiel',
-  'Lovebird',
-  'Budgerigar',
-  'African Grey',
-  'Macaw',
-  'Conure',
-  'Caique',
-  'Pigeon',
-  'Dove',
-  'Quaker Parrot',
-  'Cockatoo',
-  'Toucan'
-  ],
-  'Caged Animals': [
-  'Hamster',
-  'Rabbit',
-  'Gerbil',
-  'Guinea Pig',
-  'Chinchilla',
-  'Degu',
-  'Mouse',
-  'Rat',
-  'Ferret',
-  'Sugar Glider',
-  'Hedgehog',
-  'Prairie Dog',
-  'Chipmunk',
-  'Skunk',
-  'Marmoset'
-  ],
-  'Cats': [
-  'Persian',
-  'Siamese',
-  'Maine Coon',
-  'Sphynx',
-  'Bengal',
-  'Ragdoll',
-  'Abyssinian',
-  'Birman',
-  'Tonkinese',
-  'Oriental Shorthair',
-  'Devon Rex',
-  'Cornish Rex',
-  'Norwegian Forest Cat',
-  'Russian Blue',
-  'Siberian'
-  ],
-  'Dogs': [
-  'Golden Retriever',
-  'Labrador Retriever',
-  'Bulldog',
-  'German Shepherd',
-  'Poodle',
-  'Beagle',
-  'Yorkshire Terrier',
-  'Boxer',
-  'Dachshund',
-  'Great Dane',
-  'Chihuahua',
-  'Schnauzer',
-  'Cocker Spaniel',
-  'Rottweiler',
-  'Pug',
-  'Shih Tzu',
-  'Border Collie',
-  'Husky',
-  'Doberman',
-  'Maltese'
-  ],
-  'Fish': [
-  'Goldfish',
-  'Betta',
-  'Angelfish',
-  'Guppy',
-  'Tetra',
-  'Discus',
-  'Molly',
-  'Platy',
-  'Swordtail',
-  'Corydoras',
-  'Rainbowfish',
-  'Cichlid',
-  'Gourami',
-  'Koi',
-  'Arowana'
-  ],
-  'Reptiles': [
-  'Tortoise',
-  'Gecko',
-  'Bearded Dragon',
-  'Snake',
-  'Chameleon',
-  'Monitor Lizard',
-  'Iguana',
-  'Corn Snake',
-  'Boa Constrictor',
-  'Python',
-  'Skink',
-    'Uromastyx',
-    'Tegu',
-    'Anole',
-    'Ball Python',
-    'Crested Gecko',
-    'Leopard Tortoise',
-    'Russian Tortoise',
-    'Sulcata Tortoise',
-    'King Snake'
-  ]
+    'Amphibians': [
+      'Frog',
+      'Salamander',
+      'Caecilian',
+      'Newt',
+      'Axolotl',
+      'Pacman Frog',
+      'Fire-Bellied Toad',
+      'Mudskipper',
+      'Tree Frog',
+      'Tiger Salamander'
+    ],
+    'Arachnids': [
+      'Tarantula',
+      'Scorpion',
+      'Orb-weaver Spider',
+      'Jumping Spider',
+      'Huntsman Spider',
+      'Trapdoor Spider',
+      'Daddy Longlegs',
+      'Black Widow',
+      'Camel Spider',
+      'Harvestman'
+    ],
+    'Birds': [
+      'Parrot',
+      'Canary',
+      'Finch',
+      'Cockatiel',
+      'Lovebird',
+      'Budgerigar',
+      'African Grey',
+      'Macaw',
+      'Conure',
+      'Caique',
+      'Pigeon',
+      'Dove',
+      'Quaker Parrot',
+      'Cockatoo',
+      'Toucan'
+    ],
+    'Caged Animals': [
+      'Hamster',
+      'Rabbit',
+      'Gerbil',
+      'Guinea Pig',
+      'Chinchilla',
+      'Degu',
+      'Mouse',
+      'Rat',
+      'Ferret',
+      'Sugar Glider',
+      'Hedgehog',
+      'Prairie Dog',
+      'Chipmunk',
+      'Skunk',
+      'Marmoset'
+    ],
+    'Cats': [
+      'Persian',
+      'Siamese',
+      'Maine Coon',
+      'Sphynx',
+      'Bengal',
+      'Ragdoll',
+      'Abyssinian',
+      'Birman',
+      'Tonkinese',
+      'Oriental Shorthair',
+      'Devon Rex',
+      'Cornish Rex',
+      'Norwegian Forest Cat',
+      'Russian Blue',
+      'Siberian'
+    ],
+    'Dogs': [
+      'Golden Retriever',
+      'Labrador Retriever',
+      'Bulldog',
+      'German Shepherd',
+      'Poodle',
+      'Beagle',
+      'Yorkshire Terrier',
+      'Boxer',
+      'Dachshund',
+      'Great Dane',
+      'Chihuahua',
+      'Schnauzer',
+      'Cocker Spaniel',
+      'Rottweiler',
+      'Pug',
+      'Shih Tzu',
+      'Border Collie',
+      'Husky',
+      'Doberman',
+      'Maltese'
+    ],
+    'Fish': [
+      'Goldfish',
+      'Betta',
+      'Angelfish',
+      'Guppy',
+      'Tetra',
+      'Discus',
+      'Molly',
+      'Platy',
+      'Swordtail',
+      'Corydoras',
+      'Rainbowfish',
+      'Cichlid',
+      'Gourami',
+      'Koi',
+      'Arowana'
+    ],
+    'Reptiles': [
+      'Tortoise',
+      'Gecko',
+      'Bearded Dragon',
+      'Snake',
+      'Chameleon',
+      'Monitor Lizard',
+      'Iguana',
+      'Corn Snake',
+      'Boa Constrictor',
+      'Python',
+      'Skink',
+      'Uromastyx',
+      'Tegu',
+      'Anole',
+      'Ball Python',
+      'Crested Gecko',
+      'Leopard Tortoise',
+      'Russian Tortoise',
+      'Sulcata Tortoise',
+      'King Snake'
+    ]
   };
-
 
   String? _selectedPetType;
   String? _selectedPetBreed;
@@ -249,11 +248,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController _petDescriptionController = TextEditingController();
 
   Future openDialog() => showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text("Successfully created pet listing!"),
-    ),
-  );
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Successfully created pet listing!"),
+        ),
+      );
 
   Future addPetListing(
       String petName,
@@ -306,7 +305,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     labelText: 'Pet Name',
                     labelStyle: const TextStyle(color: Colors.black),
                     errorText:
-                    _pNameError ? 'Please Enter Your Pet Name' : null,
+                        _pNameError ? 'Please Enter Your Pet Name' : null,
                   ),
                 ),
                 SizedBox(height: 10),
@@ -321,7 +320,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     labelText: 'Pet Type',
                     labelStyle: const TextStyle(color: Colors.black),
                     errorText:
-                    _pTypeError ? 'Please Select Your Pet Type' : null,
+                        _pTypeError ? 'Please Select Your Pet Type' : null,
                   ),
                   value: _selectedPetType,
                   items: petTypes.map((String petType) {
@@ -352,7 +351,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     labelText: 'Pet Breed',
                     labelStyle: const TextStyle(color: Colors.black),
                     errorText:
-                    _pBreedError ? 'Please Select Your Pet Breed' : null,
+                        _pBreedError ? 'Please Select Your Pet Breed' : null,
                   ),
                   value: _selectedPetBreed,
                   items: _petBreeds.map((String petBreed) {
@@ -423,7 +422,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   labelText: 'Price',
                   labelStyle: const TextStyle(color: Colors.black),
                   errorText:
-                  _pPriceError ? 'Please Enter Your Pet Price' : null,
+                      _pPriceError ? 'Please Enter Your Pet Price' : null,
                 ),
               ),
             ),
@@ -435,14 +434,27 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   SizedBox(
                     height: 10,
                   ),
-                  image == null
-                      ? Icon(Icons.image)
-                      : Image.file(File(image!.path)),
+                  image == null ? Icon(Icons.image) : Image.memory(image!),
                   ElevatedButton(
                       onPressed: () async {
-                        image = await ImagePicker()
+                        final pickedFile = await ImagePicker()
                             .pickImage(source: ImageSource.gallery);
-                        setState(() {});
+                        if (pickedFile != null) {
+                          image = await pickedFile.readAsBytes();
+                        }
+
+                        if (image != null) {
+                          var storage = FirebaseStorage.instance
+                              .ref()
+                              .child("photos/$fileName");
+
+                          var uploadtask = storage.putData(image!);
+
+                          await uploadtask.whenComplete(() async {
+                            url = await storage.getDownloadURL();
+                            setState(() {});
+                          });
+                        }
                       },
                       child: Text("Select Image")),
                 ],
@@ -485,57 +497,70 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   onPressed: (_isButtonDisabled)
                       ? null
                       : () async {
-                    if (_petNameController.text.isNotEmpty &&
-                        _selectedPetType != null &&
-                        _selectedPetBreed != null &&
-                        _petAgeController.text.isNotEmpty &&
-                        _petPriceController.text.isNotEmpty &&
-                        _petDescriptionController.text.isNotEmpty &&
-                        image != null) {
-                      setState(() {
-                        _isButtonDisabled = true;
-                      });
-                      var storage = FirebaseStorage.instance
-                          .ref()
-                          .child("photos/${image!.name}");
-                      var uploadtask = storage.putFile(File(image!.path));
-                      await uploadtask.whenComplete(() async {
-                        String fileUrl = await storage.getDownloadURL();
-                        setState(() {
-                          url = fileUrl;
-                        });
+                          if (_petNameController.text.isNotEmpty &&
+                              _selectedPetType != null &&
+                              _selectedPetBreed != null &&
+                              _petAgeController.text.isNotEmpty &&
+                              _petPriceController.text.isNotEmpty &&
+                              _petDescriptionController.text.isNotEmpty &&
+                              image != null) {
+                            setState(() {
+                              _isButtonDisabled = true;
+                            });
+                            var storage = FirebaseStorage.instance
+                                .ref()
+                                .child("photos/$fileName");
 
-                        String? userName = FirebaseAuth.instance.currentUser?.email;
-                        await addPetListing(
-                          _petNameController.text.trim(),
-                          _selectedPetType!,
-                          _selectedPetBreed!,
-                          int.parse(_petAgeController.text.trim()),
-                          double.parse(_petPriceController.text.trim()),
-                          _petDescriptionController.text.trim(),
-                          userName,
-                          url,
-                        );
-                        openDialog();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AccountHome()),
-                        );
-                      });
-                    } else {
-                      setState(() {
-                        _petNameController.text.isEmpty ? _pNameError = true : _pNameError = false;
-                        _selectedPetType == null ? _pTypeError = true : _pTypeError = false;
-                        _selectedPetBreed == null ? _pBreedError = true : _pBreedError = false;
-                        _petAgeController.text.isEmpty ? _pAgeError = true : _pAgeError = false;
-                        _petPriceController.text.isEmpty ? _pPriceError = true : _pPriceError = false;
-                        _petDescriptionController.text.isEmpty ? _pDescriptionError = true : _pDescriptionError = false;
-                      });
-                    }
-                  },
+                            var uploadtask = storage.putData(image!);
 
+                            await uploadtask.whenComplete(() async {
+                              String fileUrl = await storage.getDownloadURL();
+                              setState(() {
+                                url = fileUrl;
+                              });
 
-
+                              String? userName =
+                                  FirebaseAuth.instance.currentUser?.email;
+                              await addPetListing(
+                                _petNameController.text.trim(),
+                                _selectedPetType!,
+                                _selectedPetBreed!,
+                                int.parse(_petAgeController.text.trim()),
+                                double.parse(_petPriceController.text.trim()),
+                                _petDescriptionController.text.trim(),
+                                userName,
+                                url,
+                              );
+                              openDialog();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AccountHome()),
+                              );
+                            });
+                          } else {
+                            setState(() {
+                              _petNameController.text.isEmpty
+                                  ? _pNameError = true
+                                  : _pNameError = false;
+                              _selectedPetType == null
+                                  ? _pTypeError = true
+                                  : _pTypeError = false;
+                              _selectedPetBreed == null
+                                  ? _pBreedError = true
+                                  : _pBreedError = false;
+                              _petAgeController.text.isEmpty
+                                  ? _pAgeError = true
+                                  : _pAgeError = false;
+                              _petPriceController.text.isEmpty
+                                  ? _pPriceError = true
+                                  : _pPriceError = false;
+                              _petDescriptionController.text.isEmpty
+                                  ? _pDescriptionError = true
+                                  : _pDescriptionError = false;
+                            });
+                          }
+                        },
                 )),
           ],
         ));
