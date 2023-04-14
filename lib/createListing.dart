@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:capr_petsforsale/AccountHome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,7 +6,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_for_web/image_picker_for_web.dart';
+import 'package:flutter/foundation.dart';
+import 'package:path/path.dart';
+import 'image_picker_handler.dart';
 
 void main() {
   runApp(CreateListing());
@@ -247,7 +250,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController _petPriceController = TextEditingController();
   TextEditingController _petDescriptionController = TextEditingController();
 
-  Future openDialog() => showDialog(
+  Future openDialog(BuildContext context) => showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: Text("Successfully created pet listing!"),
@@ -437,10 +440,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   image == null ? Icon(Icons.image) : Image.memory(image!),
                   ElevatedButton(
                       onPressed: () async {
-                        final pickedFile = await ImagePicker()
-                            .pickImage(source: ImageSource.gallery);
+                        final pickerHandler = getImagePickerHandler();
+                        final pickedFile = await pickerHandler.pickImage(
+                            source: ImageSource.gallery);
                         if (pickedFile != null) {
                           image = await pickedFile.readAsBytes();
+                          fileName = pickedFile.name;
                         }
 
                         if (image != null) {
@@ -531,7 +536,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 userName,
                                 url,
                               );
-                              openDialog();
+                              openDialog(context);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
